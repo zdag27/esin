@@ -1,6 +1,6 @@
-#include <iostream>
-using namespace std;
-
-nat _num;
-nat _compt;
-string _name;
+node* cellphone;
+struct node{
+    nat _num;
+    nat _compt;
+    string _name;
+};
