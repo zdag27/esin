@@ -1,100 +1,135 @@
 #include "phone.hpp"
-  /* Construeix un telèfon a partir del seu número (num), el seu nom
-  (name) i el seu comptador de trucades (compt). 
-  Es produeix un error si name no és un identificador legal. */
-phone(nat num=0, const string& name="", nat compt=0) throw(error){
-    _pho=new node;
+/* Construeix un telèfon a partir del seu número (num), el seu nom
+(name) i el seu comptador de trucades (compt).
+Es produeix un error si name no és un identificador legal. */
+phone::phone(nat num, const string& name, nat compt) throw(error){
+    cellphone=new node;
     try{
-        _pho->name=name;
-        _pho->num=num;
-        _pho->compt=compt;
-            for(i=0;i<_pho->name.size();++i){
-                if(_pho->name[i]=="<" or _pho->name[i]== "|" or _pho->name[i]=="\0"){
-                    delete _pho;
-                    throw();
-                }
+        cellphone->_name=name;
+        cellphone->_num=num;
+        cellphone->_compt=compt;
+        if(cellphone->_name.find(DELETECHAR) or cellphone->_name.find(ENDCHAR)  or cellphone->_name.find(ENDPREF)){
+            delete cellphone;
+            throw;
         }
+    }catch (...){
+        delete cellphone;
+        throw;
     }
-     catch (...) {
-            delete _pho;
-            throw();
-    }
-}
+};
 
-  /* Tres grans. Constructor per còpia, operador d'assignació i destructor. */
-  phone(const phone& T) throw(error){
-        _pho=new node;
-        try{
-            _pho->name=T->name;
-            _pho->num=T->num;
-            _pho->compt=T->compt;
-        }
-        catch (...) {
-            delete _pho;
-            throw();
-         }
-  }
-  phone& operator=(const phone& T) throw(error){
-    delete _pho;
-            _pho=new node;
+/* Tres grans. Constructor per còpia, operador d'assignació i destructor. */
+phone::phone(const phone& T) throw(error){
+    cellphone=new node;
     try{
-        _pho->name=T->name;
-        _pho->num=T->num;
-        _pho->compt=T->compt;
+        cellphone->name=T.nom();
+        cellphone->num=T.numero();
+        cellphone->compt=T.frequencia();
     }
     catch (...) {
-        delete _pho;
-        throw();
-     }
-    
-  }
-  ~phone() throw(){
-    delete _pho
-  }
+        delete cellphone;
+        throw;
+    }
+}
+phone& phone::operator=(const phone& T) throw(error){
+    delete cellphone;
+    cellphone=new node;
+    try{
+        cellphone->_name=T.nom();
+        cellphone->_num=T.numero();
+        cellphone->_compt=T.frequencia();
+    }
+    catch (...) {
+        delete cellphone;
+        throw;
+    }
 
-  /* Retorna el número de telèfon. */
-  nat numero() const throw(){
-    return _pho->num;
-  }
+}
+phone::~phone() throw(){
+    delete cellphone;
+}
 
-  /* Retorna el nom associat al telèfon, eventualment l'string buit. */
-  string nom() const throw(){
-    return _pho->name;
-  }
+/* Retorna el número de telèfon. */
+nat phone::numero() const throw(){
+    return cellphone->num;
+}
 
-  /* Retorna el número de vegades que s'ha trucat al telèfon. */
-  nat frequencia() const throw(){
-    return _pho->compt;
- }
+/* Retorna el nom associat al telèfon, eventualment l'string buit. */
+string phone::nom() const throw(){
+    return cellphone->name;
+}
 
-  /* Operador de preincrement. 
-  Incrementa en 1 el número de vegades que s'ha trucat al telèfon i
-  retorna una referència a aquest telèfon. */
-  phone& operator++() throw(){
-    ++_pho->compt;
-  }
+/* Retorna el número de vegades que s'ha trucat al telèfon. */
+nat phone::frequencia() const throw(){
+    return cellphone->compt;
+}
 
-  /* Operador de postincrement. 
-  Incrementa en 1 el número de vegades que s'ha trucat al telèfon i
-  retorna una còpia d'aquest telèfon sense incrementar. */
-  phone operator++(int) throw(){
-    ++_pho->compt;
-  }
+/* Operador de preincrement.
+Incrementa en 1 el número de vegades que s'ha trucat al telèfon i
+retorna una referència a aquest telèfon. */
+phone& phone::operator++() throw(){
+    ++cellphone->compt;
+    return cellphone;
+}
 
-  /* Operadors de comparació.  L'operador > retorna cert, si i només si, el
-  telèfon sobre el que s'aplica el mètode és més freqüent que el
-  telèfon T, o a igual freqüència, el nom associat al telèfon és
-  major en ordre lexicogràfic que el nom associat a T. 
-  La resta d'operadors es defineixen consistentment respecte a >. */
-  bool operator==(const phone& T) const throw();
-  bool operator!=(const phone& T) const throw();
-  bool operator<(const phone& T) const throw();
-  bool operator>(const phone& T) const throw();
-  bool operator<=(const phone& T) const throw();
-  bool operator>=(const phone& T) const throw();
+/* Operador de postincrement.
+Incrementa en 1 el número de vegades que s'ha trucat al telèfon i
+retorna una còpia d'aquest telèfon sense incrementar. */
+phone phone::operator++(int) throw(){
+        phone a(this->numero(),this->nom(),this->frequencia()+1);
+}
 
-  /* Caràcters especials no permesos en un nom de telèfon. */
-  static const char DELETECHAR = '<';
-  static const char ENDCHAR = '|';
-  static const char ENDPREF = '\0';
+/* Operadors de comparació.  L'operador > retorna cert, si i només si, el
+telèfon sobre el que s'aplica el mètode és més freqüent que el
+telèfon T, o a igual freqüència, el nom associat al telèfon és
+major en ordre lexicogràfic que el nom associat a T.
+La resta d'operadors es defineixen consistentment respecte a >. */
+bool phone::operator==(const phone& T) const throw(){
+    if(this->nom()==T.nom() and this->numero()==T.numero() and this->frequencia()==T.frequencia())
+        return true;
+    return false;
+}
+bool phone::operator!=(const phone& T) const throw(){
+    return !(*this==T);
+}
+bool phone::operator<(const phone& T) const throw(){
+   if(this->nom()<T.nom()){
+       return true;
+   }else if(this->nom()==T.nom()){
+       if(this->numero()<T.numero()){
+           return true;
+       }else if(this->numero()==T.numero()){
+           if(this->frequencia()<T.frequencia()){
+               return true;
+           }
+       }
+   }
+   return false;
+}
+bool phone::operator>(const phone& T) const throw(){
+    if(this->nom()>T.nom()){
+        return true;
+    }else if(this->nom()==T.nom()){
+        if(this->numero()>T.numero()){
+            return true;
+        }else if(this->numero()==T.numero()){
+            if(this->frequencia()>T.frequencia()){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+bool phone::operator<=(const phone& T) const throw(){
+    return !(*this>T);
+}
+bool phone::operator>=(const phone& T) const throw(){
+    return !(*this<T);
+}
+
+/* Caràcters especials no permesos en un nom de telèfon. */
+static const char DELETECHAR = '<';
+static const char ENDCHAR = '|';
+static const char ENDPREF = '\0';
+
 
