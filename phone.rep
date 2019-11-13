@@ -1,0 +1,6 @@
+#include <iostream>
+using namespace std;
+
+nat _num;
+nat _compt;
+string _name;
