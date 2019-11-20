@@ -9,6 +9,7 @@ Una mattina mi son alzato
 
 E ho trovato l'invasor
 
+-
 
 O partigiano, portami via
 
@@ -18,6 +19,7 @@ O partigiano, portami via
 
 Ché mi sento di morir
 
+-
 
 E se io muoio da partigiano
 
@@ -27,6 +29,7 @@ E se io muoio da partigiano
 
 Tu mi devi seppellir
 
+-
 
 E seppellire lassù in montagna
 
@@ -36,6 +39,7 @@ E seppellire lassù in montagna
 
 Sotto l'ombra di un bel fior
 
+-
 
 E le genti che passeranno
 
@@ -45,6 +49,7 @@ E le genti che passeranno
 
 Mi diranno «che bel fior.»
 
+-
 
 Questo è il fiore del partigiano
 
