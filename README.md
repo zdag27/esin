@@ -2,6 +2,7 @@
 escaquer ii la vendetta d`ill figlio no nato
 
 Una mattina mi son alzato
+
 O bella ciao, bella ciao, bella ciao, ciao, ciao
 Una mattina mi son alzato
 E ho trovato l'invasor
