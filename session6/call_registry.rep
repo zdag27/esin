@@ -1,7 +1,6 @@
 #include <cstddef>
-using namespace std;
-
-node* _regg;
+#include "phone.hpp"
+#include "call_registry.hpp"
 
 friend class Abin;
 class Abin {
@@ -14,38 +13,32 @@ class Abin {
     node* _arrel;
     static node* copia_nodes(node* m);
     static void esborra_nodes(node* m);
-    node * Abin<phone>::creabts(node* m,phone x);
+    node * creabts(node* m,phone x);
   public:
-    void elimi(num);
     void crea(phone x);
     //constructors
     Abin(): _arrel(NULL) {};
     /* Pre: cert */
     /* Post: el resultat és un arbre sense cap element */
-    Abin(Abin<phone> &ae, const phone &x, Abin<phone> &ad);
+    Abin(Abin &ae, const phone &x, Abin &ad);
     /* Pre: cert */
     /* Post: el resultat és un arbre amb un element i dos subarbres */
 
     // Les tres grans
-    Abin(const Abin<phone> &a);
+    Abin(const Abin &a);
     ~Abin();
-    Abin<phone>& operator=(const Abin<phone>& a);
-    bool abin_buscar(Abin <phone> &a, Abin::iterator it, int buscar);
-    void busca(Abin<phone>::iterator::it,nat num,phone &res);
-    void tamaño(abin<phone>::iterator:it,x);
+    Abin& operator=(const Abin& a);
+
     // Iterador sobre arbres binaris.
     friend class iterador;
     class iterador {
-      private:
-        Abin<phone>::node* _p;
-
-      public:
         friend class Abin;
+    public:
         iterador(): _p(NULL) {};
         /* Pre: cert */
         /* Post: Construeix un iterador no vàlid. */
 
-        Abin<phone> arbre() const;
+        Abin arbre() const;
         /* Pre: cert */
         /* Post: Retorna el subarbre al que apunta l'iterador; llança un error
         si l'iterador no és vàlid. */
@@ -73,6 +66,7 @@ class Abin {
           return _p != it._p;
         };
         static const int IteradorInvalid = 410;
+        Abin::node* _p;
     };
 
     //consultors
@@ -87,5 +81,10 @@ class Abin {
     iterador final() const;
     /* Pre: cert */
     /* Post: Retorna un iterador no vàlid. */
+    bool abin_buscar(Abin  &a, call_registry::Abin::iterador it, int buscar);
+    void busca(call_registry::Abin::iterador it ,nat num,phone &res);
+    void tamaño(call_registry::Abin::iterador it,int &x);
+    void elimi(nat x, Abin a);
 };
 
+Abin*_regg;

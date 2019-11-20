@@ -1,6 +1,6 @@
 #include "call_registry.hpp"
 
-typename Abin<phone>::node* Abin<phone>::copia_nodes(node* m) {
+Abin::node* Abin::copia_nodes(node* m) {
 /* Pre: cert */
 /* Post: si m és NULL, el resultat és NULL; sinó,
 	 el resultat apunta al primer node d'un arbre binari
@@ -22,7 +22,7 @@ typename Abin<phone>::node* Abin<phone>::copia_nodes(node* m) {
 };
 
 template <typename T>
-void Abin<T>::esborra_nodes(node* m) {
+void Abin::esborra_nodes(node* m) {
 /* Pre: cert */
 /* Post: no fa res si m és NULL, sinó allibera
 	 espai dels nodes de l'arbre binari apuntat per m */
@@ -33,7 +33,7 @@ void Abin<T>::esborra_nodes(node* m) {
 	}
 };
 
-Abin<phone>::Abin(Abin<phone>& ae, const phone& x, Abin<phone>& ad) {
+Abin::Abin(Abin& ae, const phone& x, Abin& ad) {
 /* Pre: cert */
 /* Post: el resultat és un arbre amb x com arrel, ae com a fill
 esquerre i ad com a fill dret. No fa còpia dels arbres ae i ad */
@@ -51,15 +51,15 @@ esquerre i ad com a fill dret. No fa còpia dels arbres ae i ad */
 	ad._arrel = NULL;
 }
 
-Abin<phone>::Abin(const Abin<phone> &a) {
+Abin::Abin(const Abin&a) {
 	_arrel = copia_nodes(a._arrel);
 };
 
-Abin<phone>::~Abin() {
+Abin::~Abin() {
 	esborra_nodes(_arrel);
 };
 
-Abin<phone>& Abin<phone>::operator=(const Abin<phone>& a) {
+Abin& Abin:: operator=(const Abin& a) {
 	if (this != &a) {
 		node* aux;
 		aux = copia_nodes(a._arrel);
@@ -70,13 +70,13 @@ Abin<phone>& Abin<phone>::operator=(const Abin<phone>& a) {
 };
 
 
-bool Abin<phone>::es_buit() const {
+bool Abin::es_buit() const {
 /* Pre: cert */
 /* Post: el resultat indica si el p.i. és buit o no */
 	return (_arrel == NULL);
 };
 
-typename Abin<phone>::iterador Abin<phone>::arrel() const {
+typename Abin::iterador Abin::arrel() const {
 /* Pre: cert */
 /* Post: Retorna un iterador al node arrel. */
 	iterador it;
@@ -84,24 +84,24 @@ typename Abin<phone>::iterador Abin<phone>::arrel() const {
 	return it;
 };
 
-typename Abin<phone>::iterador Abin<phone>::final() const{
+typename Abin::iterador Abin::final() const{
 /* Pre: cert */
 /* Post: Retorna un iterador no vàlid. */
 	return iterador();
 };
 
-Abin<phone> Abin<phone>::iterador::arbre() const {
+Abin Abin::iterador::arbre() const {
 /* Pre: cert */
 /* Post: Retorna el subarbre al que apunta l'iterador; llança un error
 si l'iterador no és vàlid. */
 	if (_p == NULL)
 		throw IteradorInvalid;
-	Abin<phone> a;
+	Abin a;
 	a._arrel = copia_nodes(_p);;
 	return a;
 };
 
-T Abin<T>::iterador::operator*() const {
+phone Abin::iterador::operator*() const {
 /* Pre: cert */
 /* Post: Retorna l'element en el node al que apunta l'iterador, o
 llança un error si l'iterador no és vàlid. */
@@ -110,7 +110,7 @@ llança un error si l'iterador no és vàlid. */
 	return _p->info;
 };
 
-typename Abin<phone>::iterador Abin<phone>::iterador::fesq() const {
+typename Abin::iterador Abin::iterador::fesq() const {
 /* Pre: cert */
 /* Post: Retorna un iterador al fill esquerre; llança
 un error si l'iterador no és vàlid. */
@@ -121,8 +121,7 @@ un error si l'iterador no és vàlid. */
 	return it;
 };
 
-template <typename T>
-typename Abin<phone>::iterador Abin<phone>::iterador::fdret() const {
+typename Abin::iterador Abin::iterador::fdret() const {
 /* Pre: cert */
 /* Post: Retorna un iterador al fill dret; llança
 un error si l'iterador no és vàlid. */
@@ -133,11 +132,11 @@ un error si l'iterador no és vàlid. */
 	return it;
 };
 
-bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &buscar){
+bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
 	while(it != a.final()){
-		if(buscar == *it){
+		if(buscar == (*it).numero()){
 			return true;
-		} else if (buscar < *it){
+		} else if (buscar < (*it).numero()){
 			it = it.fesq();
 		} else {
 			it = it.fdret();
@@ -146,11 +145,11 @@ bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &bu
 	return false;
 }
 
-    void Abin<phone>::crea(phone x) {
+    void Abin::crea(phone x) {
         creabts(_arrel,x);
     }
 
-    typename Abin<phone>::node * Abin<phone>::creabts(node* m,phone x){
+    typename Abin::node * Abin::creabts(node* m,phone x){
         if(x.numero()<m->info.numero()){
             if(m->f_esq==NULL){
                 node* n=new node;
@@ -174,43 +173,56 @@ bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &bu
         }
     }
     
-    void Abin<phone>::elimi(nat x,Abin<phone> &a){
-        Abin<phone>::iterator:: it;
+    void Abin::elimi(nat x, Abin a){
+        Abin::iterador it;
         if(a.arrel()!=it){
-            if(*a.arrel().numero!= x){
-                a.crea(*a.arrel);
+            if((*a.arrel()).numero() != x){
+                a.crea(*a.arrel());
             }
-            elimi(x,a.fesq().arbre);
-            elimi(x,a.fdret().arbre);
+            Abin::iterador iti=a.arrel();
+            elimi(x,iti.fesq().arbre());
+            elimi(x,iti.fdret().arbre());
         }
     }
     
-     void Abin<phone>::busca(Abin<phone>::iterator::it,nat num,phone &res){
-        Abin<phone>::iterator::mal;
-        if(!it==mal and res.nom!=""){
-            if(*it.numero()==num){res=*it}
-            else if(*it.numero()<num){
-                busca(it.fdret().arbre(),num,s);
-            }else{busca(it.fdret().arbre(),num,s)}
+     void Abin::busca(Abin::iterador it,nat num,phone &res){
+        Abin::iterador mal;
+        if(it!=mal and res.nom()!=""){
+            if((*it).numero()==num){res=*it;}
+            else if((*it).numero()<num){
+                busca(it.fdret(),num,res);
+            }else{busca(it.fdret(),num,res);}
         }
     }
-    void Abin<phone>::tamaño(Abin::iterator it,int x){
-        
+    void Abin::tamaño(Abin::iterador it,int &x){
+        Abin::iterador it2;
+        if(it.fesq()!=it2){
+            ++x;
+            tamaño(it.fesq(),x);
+        }
+        if(it.fdret()!=it2){
+            ++x;
+            tamaño(it.fdret(),x);
+        }
     }
 
 /* COST LINEAL O MENOR */
 
   /* Construeix un call_registry buit. */
-  call_registry::call_registry() _regg(NULL) throw(error){ }
+  call_registry::call_registry() throw(error){
+    _regg=NULL;
+  }
  
   /* Constructor per còpia, operador d'assignació i destructor. */
+
+  //{
+  	//	delete _regg;
+  	//	_regg-> =copia_nodes(R->_regg );
+  //}
+
   call_registry::call_registry(const call_registry& R) throw(error){
-  		_regg=R->_regg;
-  }
-  call_registry::call_registry& operator=(const call_registry& R) throw(error){
-  		delete _regg->_arrel;
-  		_regg->_arrel =copia_nodes(R->_regg->_arrel);
-  }
+    _regg=_regg->copia_nodes(R->_arrel());
+}
   call_registry::~call_registry() throw(){
 		delete _regg;
   }
@@ -238,7 +250,7 @@ bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &bu
   	try{
 
   	} catch(...) {
-  		throw()
+  		throw(call_registry::ErrNumeroInexistent);
   	}
   }
 
@@ -246,18 +258,18 @@ bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &bu
   Es produeix un error si el número no estava present. */
   void call_registry::elimina(nat num) throw(error){
   	if(conte(num)){
-  	    Abin <phone> a;
-  	    _regg.elimi(num,a);
+  	    Abin a;
+  	    _regg->elimi(num,a);
   	}else{
-  	    throw(ErrNumeroInexistentv )
+  	    throw(call_registry::ErrNumeroInexistent );
   	}
   }
 
   /* Retorna cert si i només si el call_registry conté un 
   telèfon amb el número donat. */
   bool call_registry::conte(nat num) const throw(){
-  		Abin<phone>::iterador it(_regg.arrel());
-  		return (_regg.abin_buscar(_regg, it, int(num)));
+  		Abin::iterador it= reinterpret_cast<Abin::iterador &&>(_regg);
+  		return (_regg->abin_buscar(reinterpret_cast<Abin &>(_regg), it, int(num)));
   }
 
 
@@ -266,9 +278,9 @@ bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &bu
   té un nom associat. Es produeix un error si el número no està en
   el call_registry. */
   string call_registry::nom(nat num) const throw(error){
-    phone res();
-    busca(_regg.arrel(),num,res);
-    if(res.nom()=="") throw (ErrNumeroInexistentv)
+    phone res;
+      _regg->busca(_regg->arrel(),num,res);
+    if(res.nom()=="") throw (call_registry::ErrNumeroInexistent);
     return res.nom();
   }
 
@@ -277,22 +289,24 @@ bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &bu
   aquest número. Es produeix un error si el número no està en el 
   call_registry. */
   nat call_registry::num_trucades(nat num) const throw(error){
-    phone res();
-    busca(_regg.arrel(),num,res);
-    if(res==phone a()) throw (ErrNumeroInexistentv)
+    phone res;
+    phone a;
+    _regg->busca(_regg->arrel(),num,res);
+    if(res==a) throw (call_registry::ErrNumeroInexistent);
     return res.frequencia();
   }
 
   /* Retorna cert si i només si el call_registry està buit. */
   bool call_registry::es_buit() const throw(){
-    return _regg==NULL
+    return _regg==NULL;
   }
 
   /* Retorna quants números de telèfon hi ha en el call_registry. */
   nat call_registry::num_entrades() const throw(){
-    x=0;
-    Abin<phone>::iterator it=_regg->_arrel;
-    _regg.tamaño(it, x)
+    int x=1;
+    Abin::iterador it= reinterpret_cast<Abin::iterador &&>(_regg);
+    _regg->tamaño(it, x);
+    if(_regg==NULL) return 0;
     return x;
   }
 
@@ -306,6 +320,11 @@ bool Abin <phone>::abin_buscar(Abin<phone> &a, Abin<phone>::iterador it, int &bu
 
   	/*
   	Phone registry pot tenir noms repetits, NO HI PODEN HAVER NUMEROS REPETITS
-  	PERO DUMP NO: try{} catch throw(ErrNomRepetit)
+  	PERO DUMP NO: try{} catch throw(ErrNomRepetit)*/
 
   }
+
+call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
+delete _regg;
+_regg-> =copia_nodes(R._regg );
+}

@@ -5,14 +5,14 @@ Es produeix un error si name no és un identificador legal. */
 phone::phone(nat num, const string& name, nat compt) throw(error){
 	unsigned int x=_name.length();
 	/*### ARREGLAR EFICIENCIA ###*/
-	if(!( _name.find(DELETECHAR)< x) and !( _name.find(ENDCHAR) < x) and !( _name.find(ENDPREF)< x)) {/*and !_name.find(ENDCHAR)  and !*/
-			_name=name;
-			_num=num;
-			_compt=compt;
-	}else{
-		cout << "no era lo que te dije gay" << endl;
-		throw(ErrNomIncorrecte);
-	}
+    for (int i = 0; i < x; ++i) {
+        if( _name[i]== '<' or _name[i]=='|'  or _name[i]=='\0') {
+            throw (ErrNomIncorrecte);
+        }
+    }
+    _name=name;
+    _num=num;
+    _compt=compt;
 };
 
 /* Tres grans. Constructor per còpia, operador d'assignació i destructor. */
