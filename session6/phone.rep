@@ -1,8 +1,5 @@
 #include "util.hpp"
-using namespace std;
 
-    util::nat _num;
-    util::nat _compt;
-    string _name;
-
-
+util::nat _num;
+util::nat _compt;
+string _name;
