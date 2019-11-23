@@ -1,20 +1,22 @@
-#include <cstddef>
 #include "phone.hpp"
 #include "call_registry.hpp"
 
-friend class Abin;
+
+
 class Abin {
+friend class call_registry;
   private:
-    struct node {
+  public:
+      struct node {
       node* f_esq;
       node* f_dret;
       phone info;
     };
     node* _arrel;
+    static node* copia_node(Abin m);
     static node* copia_nodes(node* m);
     static void esborra_nodes(node* m);
     node * creabts(node* m,phone x);
-  public:
     void crea(phone x);
     //constructors
     Abin(): _arrel(NULL) {};
@@ -83,8 +85,10 @@ class Abin {
     /* Post: Retorna un iterador no vàlid. */
     bool abin_buscar(Abin  &a, call_registry::Abin::iterador it, int buscar);
     void busca(call_registry::Abin::iterador it ,nat num,phone &res);
-    void tamaño(call_registry::Abin::iterador it,int &x);
+    void tamano(call_registry::Abin::iterador it,int &x);
     void elimi(nat x, Abin a);
 };
+
+
 
 Abin*_regg;

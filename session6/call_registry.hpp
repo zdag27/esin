@@ -75,6 +75,7 @@ public:
   static const int  ErrNomRepetit       = 22;
 
 private:
+friend class Abin;
   #include "call_registry.rep"
 };
 #endif

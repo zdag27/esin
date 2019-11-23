@@ -1,6 +1,10 @@
 #include "call_registry.hpp"
 
-Abin::node* Abin::copia_nodes(node* m) {
+call_registry::Abin::node* call_registry::Abin::copia_node(abin a){
+return copia_nodes(a->_arrel);
+};
+
+call_registry::Abin::node* call_registry::Abin::copia_nodes(node* m) {
 /* Pre: cert */
 /* Post: si m és NULL, el resultat és NULL; sinó,
 	 el resultat apunta al primer node d'un arbre binari
@@ -21,8 +25,7 @@ Abin::node* Abin::copia_nodes(node* m) {
 	return n;
 };
 
-template <typename T>
-void Abin::esborra_nodes(node* m) {
+void call_registry::Abin::esborra_nodes(node* m) {
 /* Pre: cert */
 /* Post: no fa res si m és NULL, sinó allibera
 	 espai dels nodes de l'arbre binari apuntat per m */
@@ -33,7 +36,7 @@ void Abin::esborra_nodes(node* m) {
 	}
 };
 
-Abin::Abin(Abin& ae, const phone& x, Abin& ad) {
+call_registry::Abin::Abin(Abin& ae, const phone& x, Abin& ad) {
 /* Pre: cert */
 /* Post: el resultat és un arbre amb x com arrel, ae com a fill
 esquerre i ad com a fill dret. No fa còpia dels arbres ae i ad */
@@ -51,15 +54,15 @@ esquerre i ad com a fill dret. No fa còpia dels arbres ae i ad */
 	ad._arrel = NULL;
 }
 
-Abin::Abin(const Abin&a) {
+call_registry::Abin::Abin(const Abin&a) {
 	_arrel = copia_nodes(a._arrel);
 };
 
-Abin::~Abin() {
+call_registry::Abin::~Abin() {
 	esborra_nodes(_arrel);
 };
 
-Abin& Abin:: operator=(const Abin& a) {
+call_registry::Abin& call_registry::Abin:: operator=(const Abin& a) {
 	if (this != &a) {
 		node* aux;
 		aux = copia_nodes(a._arrel);
@@ -70,13 +73,13 @@ Abin& Abin:: operator=(const Abin& a) {
 };
 
 
-bool Abin::es_buit() const {
+bool call_registry::Abin::es_buit() const {
 /* Pre: cert */
 /* Post: el resultat indica si el p.i. és buit o no */
 	return (_arrel == NULL);
 };
 
-typename Abin::iterador Abin::arrel() const {
+typename call_registry::Abin::iterador call_registry::Abin::arrel() const {
 /* Pre: cert */
 /* Post: Retorna un iterador al node arrel. */
 	iterador it;
@@ -84,13 +87,13 @@ typename Abin::iterador Abin::arrel() const {
 	return it;
 };
 
-typename Abin::iterador Abin::final() const{
+typename call_registry::Abin::iterador call_registry::Abin::final() const{
 /* Pre: cert */
 /* Post: Retorna un iterador no vàlid. */
 	return iterador();
 };
 
-Abin Abin::iterador::arbre() const {
+call_registry::Abin call_registry::Abin::iterador::arbre() const {
 /* Pre: cert */
 /* Post: Retorna el subarbre al que apunta l'iterador; llança un error
 si l'iterador no és vàlid. */
@@ -101,7 +104,7 @@ si l'iterador no és vàlid. */
 	return a;
 };
 
-phone Abin::iterador::operator*() const {
+phone call_registry::Abin::iterador::operator*() const {
 /* Pre: cert */
 /* Post: Retorna l'element en el node al que apunta l'iterador, o
 llança un error si l'iterador no és vàlid. */
@@ -110,7 +113,7 @@ llança un error si l'iterador no és vàlid. */
 	return _p->info;
 };
 
-typename Abin::iterador Abin::iterador::fesq() const {
+typename call_registry::Abin::iterador call_registry::Abin::iterador::fesq() const {
 /* Pre: cert */
 /* Post: Retorna un iterador al fill esquerre; llança
 un error si l'iterador no és vàlid. */
@@ -121,7 +124,7 @@ un error si l'iterador no és vàlid. */
 	return it;
 };
 
-typename Abin::iterador Abin::iterador::fdret() const {
+typename call_registry::Abin::iterador call_registry::Abin::iterador::fdret() const {
 /* Pre: cert */
 /* Post: Retorna un iterador al fill dret; llança
 un error si l'iterador no és vàlid. */
@@ -132,7 +135,7 @@ un error si l'iterador no és vàlid. */
 	return it;
 };
 
-bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
+bool call_registry::Abin::abin_buscar(Abin  &a, call_registry::Abin::iterador it, int buscar){
 	while(it != a.final()){
 		if(buscar == (*it).numero()){
 			return true;
@@ -145,11 +148,11 @@ bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
 	return false;
 }
 
-    void Abin::crea(phone x) {
+    void call_registry::Abin::crea(phone x) {
         creabts(_arrel,x);
     }
 
-    typename Abin::node * Abin::creabts(node* m,phone x){
+    typename call_registry::Abin::node * call_registry::Abin::creabts(node* m,phone x){
         if(x.numero()<m->info.numero()){
             if(m->f_esq==NULL){
                 node* n=new node;
@@ -173,20 +176,20 @@ bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
         }
     }
     
-    void Abin::elimi(nat x, Abin a){
-        Abin::iterador it;
+    void call_registry::Abin::elimi(nat x, Abin a){
+        call_registry::Abin::iterador it;
         if(a.arrel()!=it){
             if((*a.arrel()).numero() != x){
                 a.crea(*a.arrel());
             }
-            Abin::iterador iti=a.arrel();
+            call_registry::Abin::iterador iti=a.arrel();
             elimi(x,iti.fesq().arbre());
             elimi(x,iti.fdret().arbre());
         }
     }
     
-     void Abin::busca(Abin::iterador it,nat num,phone &res){
-        Abin::iterador mal;
+     void call_registry::Abin::busca(call_registry::Abin::iterador it,nat num,phone &res){
+        call_registry::Abin::iterador mal;
         if(it!=mal and res.nom()!=""){
             if((*it).numero()==num){res=*it;}
             else if((*it).numero()<num){
@@ -194,15 +197,15 @@ bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
             }else{busca(it.fdret(),num,res);}
         }
     }
-    void Abin::tamaño(Abin::iterador it,int &x){
-        Abin::iterador it2;
+    void call_registry::Abin::tamano(call_registry::Abin::iterador it,int &x){
+        call_registry::Abin::iterador it2;
         if(it.fesq()!=it2){
             ++x;
-            tamaño(it.fesq(),x);
+            tamano(it.fesq(),x);
         }
         if(it.fdret()!=it2){
             ++x;
-            tamaño(it.fdret(),x);
+            tamano(it.fdret(),x);
         }
     }
 
@@ -221,7 +224,7 @@ bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
   //}
 
   call_registry::call_registry(const call_registry& R) throw(error){
-    _regg=_regg->copia_nodes(R->_arrel());
+    _regg=_regg->copia_node(R._regg);
 }
   call_registry::~call_registry() throw(){
 		delete _regg;
@@ -268,7 +271,7 @@ bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
   /* Retorna cert si i només si el call_registry conté un 
   telèfon amb el número donat. */
   bool call_registry::conte(nat num) const throw(){
-  		Abin::iterador it= reinterpret_cast<Abin::iterador &&>(_regg);
+  		call_registry::Abin::iterador it= reinterpret_cast<call_registry::Abin::iterador &&>(_regg);
   		return (_regg->abin_buscar(reinterpret_cast<Abin &>(_regg), it, int(num)));
   }
 
@@ -304,8 +307,8 @@ bool Abin ::abin_buscar(Abin  &a, Abin::iterador it, int buscar){
   /* Retorna quants números de telèfon hi ha en el call_registry. */
   nat call_registry::num_entrades() const throw(){
     int x=1;
-    Abin::iterador it= reinterpret_cast<Abin::iterador &&>(_regg);
-    _regg->tamaño(it, x);
+    call_registry::Abin::iterador it= reinterpret_cast<call_registry::Abin::iterador &&>(_regg);
+    _regg->tamano(it, x);
     if(_regg==NULL) return 0;
     return x;
   }
