@@ -1,0 +1,12 @@
+#include "phone.hpp"
+struct dalb{
+    phone cell;
+    dalb* izq;
+    dalb* der;
+};
+dalb* rai;
+static dalb* copia_call(dalb * R);
+static void thanos(dalb* m);
+static void tamano(dalb* call,int &x);
+static dalb* buscar(dalb* call,nat num);
+static void agrega(dalb* &call,phone telf);
