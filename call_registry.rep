@@ -4,6 +4,7 @@ struct dalb{
     dalb* izq;
     dalb* der;
 };
+
 dalb* rai;
 static dalb* copia_call(dalb * R);
 static void thanos(dalb* m);

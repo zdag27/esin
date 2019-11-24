@@ -42,7 +42,6 @@ call_registry::dalb* call_registry::copia_call(dalb * R){
     return n;
 };
 void call_registry::thanos(dalb* m){
-
     if (m != NULL) {
         thanos(m->izq);
         thanos(m->der);
@@ -73,6 +72,7 @@ void call_registry::agrega(dalb* &call,phone telf){
         }
     }
 };
+
   /* Construeix un call_registry buit. */
   call_registry::call_registry() throw(error){
     rai=NULL;
@@ -96,8 +96,8 @@ void call_registry::agrega(dalb* &call,phone telf){
   el número de telèfon donat, l'string buit com a nom i el comptador a 1. */
   void call_registry::registra_trucada(nat num) throw(error){
         dalb* n=buscar(rai, num);
-        if(n!=NULL){++n->cell;}
-        else{
+        if(n!=NULL){++n->cell;
+        }else{
             phone a(num,"",1);
             agrega(rai,a);
         }
@@ -110,20 +110,21 @@ void call_registry::agrega(dalb* &call,phone telf){
   Si el número existia prèviament, se li assigna el nom donat. */
   void call_registry::assigna_nom(nat num, const string& name) throw(error){
   	// Crear nou objecte amb el nou nom -> PREGUNTA DEL FORUM
-  	try{
-
-  	} catch(...) {
-  		throw(call_registry::ErrNumeroInexistent);
+  	dalb* res=buscar(rai,num);
+  	if(res==NULL){
+        phone a(num,name,0);
+  	    agrega(rai,a);
+  	}else{
+        phone a(num,name,res->cell.frequencia());
+        res->cell=a;
   	}
   }
 
   /* Elimina l'entrada corresponent al telèfon el número de la qual es dóna.
   Es produeix un error si el número no estava present. */
   void call_registry::elimina(nat num) throw(error){
-  	if(conte(num)){
-  	}else{
-  	    throw(call_registry::ErrNumeroInexistent );
-  	}
+      dalb* a=buscar(rai,num);
+      
   }
 
   /* Retorna cert si i només si el call_registry conté un 
