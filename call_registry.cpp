@@ -73,6 +73,46 @@ void call_registry::agrega(dalb* &call,phone telf){
     }
 };
 
+call_registry::dalb* call_registry::elimina (dalb *n, nat &num) {
+    dalb *p = n;
+    if (n != NULL) {
+        if (num < n->cell.numero()) {
+        n->izq = elimina(n->izq, num );
+        }
+        else if (num > n->cell.numero()) {
+            n->der = elimina(n->der, num );
+        }
+        else {
+            n = ajunta(n->izq, n->der);
+            delete(p);
+        }
+    }
+    return n;
+}
+
+call_registry::dalb* call_registry::ajunta (dalb *t1, dalb *t2) throw() {
+    if (t1 == NULL) {
+        return t2;
+    }
+    if (t2 == NULL) {
+        return t1;
+    }
+    dalb* p = elimina_maxim(t1);
+    p->der = t2;
+    return p;
+};
+
+call_registry::dalb* call_registry::elimina_maxim (dalb* p) throw() {
+    dalb *p_orig = p, *pare = NULL;
+    while (p->der != NULL) {
+        pare = p;
+        p = p->der;
+    }
+    if (pare != NULL) {
+        pare->der = p->izq; // p és fill dret de pare
+        p->izq = p_orig;
+    }
+};
   /* Construeix un call_registry buit. */
   call_registry::call_registry() throw(error){
     rai=NULL;
@@ -123,8 +163,11 @@ void call_registry::agrega(dalb* &call,phone telf){
   /* Elimina l'entrada corresponent al telèfon el número de la qual es dóna.
   Es produeix un error si el número no estava present. */
   void call_registry::elimina(nat num) throw(error){
-      dalb* a=buscar(rai,num);
-      
+  	if(conte(num)){
+  	   elimina(rai,num);
+  	}else{
+  	    throw(call_registry::ErrNumeroInexistent );
+  	}
   }
 
   /* Retorna cert si i només si el call_registry conté un 

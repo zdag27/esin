@@ -11,3 +11,6 @@ static void thanos(dalb* m);
 static void tamano(dalb* call,int &x);
 static dalb* buscar(dalb* call,nat num);
 static void agrega(dalb* &call,phone telf);
+static dalb* elimina(dalb* call,nat &num);
+dalb* ajunta (dalb *t1, dalb *t2);
+static dalb* elimina_maxim (dalb* p);
