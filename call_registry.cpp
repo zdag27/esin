@@ -1,9 +1,9 @@
 #include "call_registry.hpp"
 void call_registry::tamano(dalb* call,int &x){
     ++x;
-    if(call->izq==NULL){
+    if(call->izq!=NULL){
         tamano(call->izq,x);
-    }if(call->der==NULL){
+    }if(call->der!=NULL){
         tamano(call->der,x);
     }
 };
@@ -48,7 +48,15 @@ void call_registry::thanos(dalb* m){
         delete m;
     }
 };
-
+void call_registry::recnade(dalb* call,vector<phone> &v){
+    if(call!=NULL){
+        if(call->cell.nom()!=""){
+            v.push_back(call->cell);
+        }
+        recnade(call->izq,v);
+        recnade(call->der,v);
+    }
+};
 void call_registry::agrega(dalb* &call,phone telf){
     if(call->cell.numero()<telf.numero()){
         if(call->der==NULL){
@@ -88,9 +96,9 @@ call_registry::dalb* call_registry::elimina (dalb *n, nat &num) {
         }
     }
     return n;
-}
+};
 
-call_registry::dalb* call_registry::ajunta (dalb *t1, dalb *t2) throw() {
+call_registry::dalb* call_registry::ajunta(dalb *t1, dalb *t2)  {
     if (t1 == NULL) {
         return t2;
     }
@@ -102,7 +110,7 @@ call_registry::dalb* call_registry::ajunta (dalb *t1, dalb *t2) throw() {
     return p;
 };
 
-call_registry::dalb* call_registry::elimina_maxim (dalb* p) throw() {
+call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
     dalb *p_orig = p, *pare = NULL;
     while (p->der != NULL) {
         pare = p;
@@ -217,11 +225,15 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) throw() {
   es produeix un error en cas contrari. */
   void call_registry::dump(vector<phone>& V) const throw(error){
   	// NOMES TELEFONS AMB NOM
-
-  	/*
-  	Phone registry pot tenir noms repetits, NO HI PODEN HAVER NUMEROS REPETITS
-  	PERO DUMP NO: try{} catch throw(ErrNomRepetit)*/
-
+  	recnade(rai,V);
+    for(int i=0;i<V.size();++i){
+        for(int j=0;j<V.size();++j){
+            if(i!=j and V[i].nom()==V[j].nom()){
+                V[i]=V[j];
+                V.pop_back();
+            }
+        }
+    }
   }
 
 call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
