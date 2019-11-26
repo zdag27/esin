@@ -1,0 +1,1 @@
+g++ -Wall -ansi -c *.cpp && g++ -o main.exe main.o phone.o call_registry.o -lesin && ./main.exe 
