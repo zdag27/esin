@@ -7,7 +7,7 @@ phone::phone(nat num, const string& name, nat compt) throw(error){
 	/*### ARREGLAR EFICIENCIA ###*/
     for (unsigned int i = 0; i < x; ++i) {
         if( _name[i]== '<' or _name[i]=='|'  or _name[i]=='\0') {
-            throw (ErrNomIncorrecte);
+            throw (error(ErrNomIncorrecte));
         }
     }
     _name=name;

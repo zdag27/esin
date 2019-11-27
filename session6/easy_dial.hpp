@@ -3,7 +3,7 @@
 
 #include "call_registry.hpp"
 #include <esin/error>
-#include <esin/util>   
+#include <esin/util>
 #include <string>
 #include <vector>
 

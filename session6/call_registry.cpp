@@ -1,28 +1,37 @@
 #include "call_registry.hpp"
+void call_registry::recnade(dalb* call,vector<phone> &v){
+    if(call!=NULL){
+        if(call->cell.nom()!=""){
+            v.push_back(call->cell);
+        }
+        recnade(call->izq,v);
+        recnade(call->der,v);
+    }
+};
 void call_registry::tamano(dalb* call,int &x){
 	++x;
-	if(call->izq==NULL){
+	if(call->izq!=NULL){
 		tamano(call->izq,x);
-	}if(call->der==NULL){
+	}if(call->der!=NULL){
 		tamano(call->der,x);
 	}
 };
 
 call_registry::dalb* call_registry::buscar(dalb* call,nat num){
-if(call!=NULL){
-	if(call->cell.numero()==num){
-		return call;
-	}else{
-		dalb* n;
-		if(call->cell.numero()>num){
-			n=buscar(call->izq,num);
-		}else{
-			n=buscar(call->der,num);
-		}
-		return n;
-	}
-}
-return NULL;
+    if(call!=NULL){
+	    if(call->cell.numero()==num){
+		    return call;
+	    }else{
+		    dalb* n;
+		    if(call->cell.numero()>num){
+			    n=buscar(call->izq,num);
+		    }else{
+			    n=buscar(call->der,num);
+		    }
+		    return n;
+	    }
+    }
+    return NULL;
 };
 /* COST LINEAL O MENOR */
 call_registry::dalb* call_registry::copia_call(dalb * R){
@@ -51,39 +60,30 @@ void call_registry::thanos(dalb* m){
 
 void call_registry::agrega(dalb* &call,phone telf){
 	if(call->cell.numero()<telf.numero()){
-		cout << "if 1" << endl;
 		if(call->der==NULL){
-			cout << "if 1.1" << endl;
 			dalb* n=new dalb;
 			n->cell=telf;
 			n->der=NULL;
 			n->izq=NULL;
 			call->der=n;
-			cout << "FI if 1.1" << endl;
 		}else{
-			cout << "else 1.1" << endl;
 			agrega(call->der,telf);
-			cout << "FI else 1.1" << endl;
 		}
 	}else {
-		cout << "else 1" << endl;
 		if (call->izq == NULL) {
 			dalb *n = new dalb;
 			n->cell = telf;
 			n->der = NULL;
 			n->izq = NULL;
-			cout << "if 1.2" << endl;
 			call->izq = n;
-			cout << "FI if 1.2" << endl;
 		} else {
-			cout << "else 1.2" << endl;
-			agrega(call->der, telf);
-			cout << "FI else 1.2" << endl;
+			agrega(call->izq, telf);
 		}
 	}
 };
 
 call_registry::dalb* call_registry::elimina (dalb *n, nat &num) {
+
 	dalb *p = n;
 	if (n != NULL) {
 		if (num < n->cell.numero()) {
@@ -129,7 +129,9 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 		//cout << "No estoy ";
 		dalb*x = new dalb;
 		phone a;
+		x->izq=NULL;
 		x->cell = a;
+		x->der=NULL;
 		rai=x;
 		//cout << "loco, lo juro" << endl;
 	}
@@ -151,7 +153,6 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 	estava prèviament en el call_rbuscar(rai, num)egistry afegeix una nova entrada amb
 	el número de telèfon donat, l'string buit com a nom i el comptador a 1. */
 	void call_registry::registra_trucada(nat num) throw(error){
-		cout << "guat the ";
 		dalb* n=buscar(rai, num);
 		if(n!=NULL){
 			++n->cell;
@@ -159,7 +160,6 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 			phone a(num,"",1);
 			agrega(rai,a);
 		}
-		cout << "fuck" << endl;
 	}
 
 	/* Assigna el nom indicat al número donat.
@@ -185,7 +185,7 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 		if(conte(num)){
 			 elimina(rai,num);
 		}else{
-				throw(call_registry::ErrNumeroInexistent );
+				throw(error(ErrNumeroInexistent) );
 		}
 	}
 
@@ -202,7 +202,8 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 	el call_registry. */
 	string call_registry::nom(nat num) const throw(error){
 			dalb* res = (buscar(rai, num));
-		if(res==NULL) throw (call_registry::ErrNumeroInexistent);
+		if(res==NULL){
+		throw (error(ErrNumeroInexistent));} 
 		return res->cell.nom();
 	}
 
@@ -212,7 +213,7 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 	call_registry. */
 	nat call_registry::num_trucades(nat num) const throw(error){
 		dalb*   res=buscar(rai, num);
-		if(res==NULL) throw (call_registry::ErrNumeroInexistent);
+		if(res==NULL) throw (error(ErrNumeroInexistent));
 		return res->cell.frequencia();
 	}
 
@@ -235,12 +236,15 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 	Comprova que tots els noms dels telèfons siguin diferents{} 
 	es produeix un error en cas contrari. */
 	void call_registry::dump(vector<phone>& V) const throw(error){
-		// NOMES TELEFONS AMB NOM
-
-		/*
-		Phone registry pot tenir noms repetits, NO HI PODEN HAVER NUMEROS REPETITS
-		PERO DUMP NO: try{} catch throw(ErrNomRepetit)*/
-
+  	recnade(rai,V);
+    for(int i=0;i<V.size();++i){
+        for(int j=0;j<V.size();++j){
+            if(i!=j and V[i].nom()==V[j].nom()){
+                V[i]=V[j];
+                V.pop_back();
+            }
+        }
+    }
 	}
 
 call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
