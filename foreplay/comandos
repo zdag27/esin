@@ -2,3 +2,13 @@ Compilar para gen_driver
 g++ -std=c++98 -Wall -ansi -o driver_easydial.exe call_registry.cpp dialog.cpp driver_easydial.cpp easy_dial.cpp phone.cpp  -lesin
 Compilar en general
 g++ -Wall -ansi -c *.cpp && g++ -o main.exe main.o phone.o call_registry.o -lesin && ./main.exe
+
+
+debugger y notas
+/*
+  gdb -> GNU debugger
+  afegir bandera -d al compilar
+  -O0 = no optimizar
+*/
+g++ -d -o -O0
+gdb a.exe
