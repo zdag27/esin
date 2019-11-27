@@ -5,7 +5,7 @@ Es produeix un error si name no és un identificador legal. */
 phone::phone(nat num, const string& name, nat compt) throw(error){
 	unsigned int x=_name.length();
 	/*### ARREGLAR EFICIENCIA ###*/
-    for (int i = 0; i < x; ++i) {
+    for (unsigned int i = 0; i < x; ++i) {
         if( _name[i]== '<' or _name[i]=='|'  or _name[i]=='\0') {
             throw (ErrNomIncorrecte);
         }
@@ -15,21 +15,20 @@ phone::phone(nat num, const string& name, nat compt) throw(error){
     _compt=compt;
 };
 
+
 /* Tres grans. Constructor per còpia, operador d'assignació i destructor. */
 phone::phone(const phone& T) throw(error){
 	_name=T.nom();
 	_num=T.numero();
 	_compt=T.frequencia();
-}
 
+}
 phone& phone::operator=(const phone& T) throw(error){
-		_name=T.nom();
-		_num=T.numero();
-		_compt=T.frequencia();
+	_name=T.nom();
+	_num=T.numero();
+	_compt=T.frequencia();
 	return *this;
-
 }
-
 phone::~phone() throw(){
 }
 
@@ -60,8 +59,8 @@ phone& phone::operator++() throw(){
 Incrementa en 1 el número de vegades que s'ha trucat al telèfon i
 retorna una còpia d'aquest telèfon sense incrementar. */
 phone phone::operator++(int) throw(){
-			phone a(this->numero(),this->nom(),this->frequencia()+1);
-			return a;
+	phone a(this->numero(),this->nom(),this->frequencia()+1);
+	return a;
 }
 
 /* Operadors de comparació.  L'operador > retorna cert, si i només si, el
@@ -74,21 +73,19 @@ bool phone::operator==(const phone& T) const throw(){
 			return true;
 	return false;
 }
-
 bool phone::operator!=(const phone& T) const throw(){
 	return !(*this==T);
 }
-
 bool phone::operator<(const phone& T) const throw(){
  if(this->nom()<T.nom()){
-	return true;
+		 return true;
  }else if(this->nom()==T.nom()){
-	if(this->numero()<T.numero()){
-		return true;
-		 }else if(this->numero()==T.numero()){
-			 if(this->frequencia()<T.frequencia()){
+		 if(this->numero()<T.numero()){
 				 return true;
-			 }
+		 }else if(this->numero()==T.numero()){
+				 if(this->frequencia()<T.frequencia()){
+						 return true;
+		 }
 	 }
  }
  return false;

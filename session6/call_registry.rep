@@ -1,94 +1,16 @@
 #include "phone.hpp"
-#include "call_registry.hpp"
-
-
-
-class Abin {
-friend class call_registry;
-  private:
-  public:
-      struct node {
-      node* f_esq;
-      node* f_dret;
-      phone info;
-    };
-    node* _arrel;
-    static node* copia_node(Abin m);
-    static node* copia_nodes(node* m);
-    static void esborra_nodes(node* m);
-    node * creabts(node* m,phone x);
-    void crea(phone x);
-    //constructors
-    Abin(): _arrel(NULL) {};
-    /* Pre: cert */
-    /* Post: el resultat és un arbre sense cap element */
-    Abin(Abin &ae, const phone &x, Abin &ad);
-    /* Pre: cert */
-    /* Post: el resultat és un arbre amb un element i dos subarbres */
-
-    // Les tres grans
-    Abin(const Abin &a);
-    ~Abin();
-    Abin& operator=(const Abin& a);
-
-    // Iterador sobre arbres binaris.
-    friend class iterador;
-    class iterador {
-        friend class Abin;
-    public:
-        iterador(): _p(NULL) {};
-        /* Pre: cert */
-        /* Post: Construeix un iterador no vàlid. */
-
-        Abin arbre() const;
-        /* Pre: cert */
-        /* Post: Retorna el subarbre al que apunta l'iterador; llança un error
-        si l'iterador no és vàlid. */
-
-        phone operator*() const;
-        /* Pre: cert */
-        /* Post: Retorna l'element en el node al que apunta l'iterador, o
-        llança un error si l'iterador no és vàlid. */
-
-        iterador fesq() const;
-        /* Pre: cert */
-        /* Post: Retorna un iterador al fill esquerre; llança
-        un error si l'iterador no és vàlid. */
-
-        iterador fdret() const;
-        /* Pre: cert */
-        /* Post: Retorna un iterador al fill dret; llança
-        un error si l'iterador no és vàlid. */
-
-        /* Operadors de comparació. */
-        bool operator==(const iterador &it) const {
-          return _p == it._p;
-        };
-        bool operator!=(const iterador &it) const {
-          return _p != it._p;
-        };
-        static const int IteradorInvalid = 410;
-        Abin::node* _p;
-    };
-
-    //consultors
-    bool es_buit() const;
-    /* Pre: cert */
-    /* Post: el resultat indica si el p.i. és buit o no */
-
-    iterador arrel() const;
-    /* Pre: cert */
-    /* Post: Retorna un iterador al node arrel. */
-    
-    iterador final() const;
-    /* Pre: cert */
-    /* Post: Retorna un iterador no vàlid. */
-    bool abin_buscar(Abin  &a, call_registry::Abin::iterador it, int buscar);
-    void busca(call_registry::Abin::iterador it ,nat num,phone &res);
-    void tamano(call_registry::Abin::iterador it,int &x);
-    void elimi(nat x, Abin a);
+struct dalb{
+    phone cell;
+    dalb* izq;
+    dalb* der;
 };
 
-
-
-Abin*_regg;
+dalb* rai;
+static dalb* copia_call(dalb * R);
+static void thanos(dalb* m);
+static void tamano(dalb* call,int &x);
+static dalb* buscar(dalb* call,nat num);
+static void agrega(dalb* &call,phone telf);
+static dalb* elimina(dalb* call,nat &num);
+static dalb* ajunta(dalb *t1, dalb *t2);
+static dalb* elimina_maxim (dalb* p);
