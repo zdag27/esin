@@ -68,11 +68,11 @@ void call_registry::agrega(dalb* &call,phone telf){
 	}else {
 		cout << "else 1" << endl;
 		if (call->izq == NULL) {
-			cout << "if 1.2" << endl;
 			dalb *n = new dalb;
 			n->cell = telf;
 			n->der = NULL;
 			n->izq = NULL;
+			cout << "if 1.2" << endl;
 			call->izq = n;
 			cout << "FI if 1.2" << endl;
 		} else {
@@ -126,7 +126,12 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 };
 	/* Construeix un call_registry buit. */
 	call_registry::call_registry() throw(error){
-		rai=NULL;
+		//cout << "No estoy ";
+		dalb*x = new dalb;
+		phone a;
+		x->cell = a;
+		rai=x;
+		//cout << "loco, lo juro" << endl;
 	}
 
 	call_registry::call_registry(const call_registry& R) throw(error){
@@ -146,8 +151,8 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 	estava prèviament en el call_rbuscar(rai, num)egistry afegeix una nova entrada amb
 	el número de telèfon donat, l'string buit com a nom i el comptador a 1. */
 	void call_registry::registra_trucada(nat num) throw(error){
-		dalb* n=buscar(rai, num);
 		cout << "guat the ";
+		dalb* n=buscar(rai, num);
 		if(n!=NULL){
 			++n->cell;
 		}else{

@@ -28,12 +28,12 @@ int main()
 	cout << "ok, are you ok?" << endl;
 	X.registra_trucada(a.numero());
 	cout << "are you ok Annie?" << endl;
+	/*
+	*/
 	X.assigna_nom(a.numero(), a.nom());
 	call_registry Y(X);
 	X.elimina(a.numero());
 
-	/*
-	*/
 
 	if(X.conte(a.numero())){
 		cout << "X conte " << a.numero() << endl;
