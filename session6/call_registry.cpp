@@ -240,8 +240,7 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
     for(int i=0;i<V.size();++i){
         for(int j=0;j<V.size();++j){
             if(i!=j and V[i].nom()==V[j].nom()){
-                V[i]=V[j];
-                V.pop_back();
+		throw(error(ErrNomRepetit))
             }
         }
     }
