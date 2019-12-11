@@ -1,34 +1,30 @@
 #include "easy_dial.hpp"
-
-
-/* ############EVERYTHING WENT DOWN THE SHITTEEEEEEEEEEEEEEEEEEEEER##################### */
-phone find_Phone(arb* it){
-	bool trobat = false;
-	phone result;
-	/*
-	Dado prefijo = Mar
-	Conseguir el phone de mayor frecuencia de prefijo M, lo llamaremos p1
-	Conseguir el phone de mayor frecuencia de prefijo Ma, lo llamaremos p2
-	Conseguir el phone de mayor frecuencia de prefijo Mar QUE NO SEA p1 NI p2
-	*/
-	find_Phone_r(it, result);
+ 
+void easy_dial::find_Phone(arb* it,phone &p){
+    if(it!=NULL){
+         if(it.car==int('#')){
+             if(p.frequencia()<it._p.fecuencia())
+                  p=it._p;
+        }
+         find_Phone(it->izq);
+         find_Phone(it->cen);
+         find_Phone(it->der);
+    }
 }
 
-void find_Phone_r(arb* it, phone &result){
-	if(it.car == int('#')){
-		if(it.p.frequencia()){}
-		result = it.p;
-	}else if(it.izq != NULL)
-		it = it.izq;
-	else if(it.cen != NULL)
-		it = it.cen;
-	else if(it.der != NULL)
-		it = it.der;
-	else
-		it = NULL;
-}
-/* ##################################################################################### */
-
+void easy_dial::mueve_it(arb* it,char c,arb* &ti){
+    if(it!=NULL){
+            while(it!=NULL and ti==NULL){
+                if(it.car==int(c)){
+                    ti=it;
+                }else if(it.car<int(c)){
+                    it=it->der;
+                }else{
+                    it=it->izq;
+                }
+            }
+        }
+};
 
 void easy_dial::borrar(arb* &ra){
     if(ra!=NULL){
@@ -190,7 +186,9 @@ si F (S, '') no existeix llavors retorna l'string buit. */
 string easy_dial::inici() throw(){
 	this->prefijo = "";
 	arb* it = this->_raiz;
-	return find_Phone(it);
+	phone p;
+	find_Phone(it,p);
+	return p;
 };
 
 /* Retorna el nom de F(S, p') on p' és el prefix resultant d'afegir
@@ -205,13 +203,21 @@ fos indefinit. */
 string easy_dial::seguent(char c) throw(error){
 	string s;
 	this->prefijo += c;
-	arb* it = vecror[prefijo.size()];
-	mueve_it(it,c); // !!! mover el it a donde c, si no lo encuentra it = NULL !!!
-	if(it == NULL)
-		throw(error(ErrPrefixIndef))
-	else{
+	arb* ti=NULL;
+	if(prefijo.size>1)
+	    mueve_it(it->cen,c,ti); // !!! mover el it a donde c, si no lo encuentra it = NULL !!!
+	else
+	    mueve_it(it,c,ti);
+	if(ti == NULL){
+	    prefijo.pop_back();
+		throw(error(ErrPrefixIndef));
+	}else{
 		// Hemos encontrado un nodo con el prefijo, sacamos el primer nombre en orden lexicografico
-		s = find_primerContacto(it).nom(); // ### PENDIENTE ###
+		phone p;
+		find_phone(it,p);
+		s=p.nombre();
+		it=ti;
+		vecror[prefijo.size()-1]=it;
 	}
 	return s;
 };
@@ -223,18 +229,17 @@ Es produeix un error si p fos buida i si es fa que el prefix en curs
 quedi indefinit. Òbviament, també es produeix un error 
 si p fos indefinit. */
 string easy_dial::anterior() throw(error){
-	string s;
-	if(string.size() <= 1){
+    string s;
+	if(prefijo.size() <= 1){
+	    if(prefijo.size()==1){
+	        it=_raiz;
+	        prefijo.pop;
+	    }
 		throw(error(ErrNoHiHaAnterior))
 	} else {
 		this->prefijo.pop_back();
-		arb* it = vecror[prefijo.size()];
-		if(it == NULL)
-			throw(error(ErrPrefixIndef))
-		else{
-			// Hemos encontrado un nodo con el prefijo, sacamos el primer nombre en orden lexicografico
-			s = find_primerContacto(it).nom(); // ### PENDIENTE ###
-		}
+		arb* it = vecror[prefijo.size()-1];
+			s = find_primerContacto(it).nom(); 
 	}
 	return s;
 };
@@ -243,7 +248,9 @@ string easy_dial::anterior() throw(error){
 el prefix en curs. Es produeix un error si p és indefinit o si
 no existeix F(S, p). */
 nat easy_dial::num_telf() const throw(error){
-	s = find_primerContacto(it).num_telf(); // ### PENDIENTE ###
+    phone p;
+	find_primerContacto(it,p); // 
+	return p.numero()
 
 };
 
@@ -265,16 +272,18 @@ obtenir el telèfon el nom del qual és s. La funció retorna la suma
     Pr(s) · t(s)
 per tots els telèfons s del conjunt X, sent Pr(s) la probabilitat de
 telefonar a s. La probabilitat s'obté dividint la freqüència de s per
-la suma de totes les freqüències. */
+la suma de totes les freqüències. 
 
-/*
+
 FER ESTADISTICA SEGONS NOU FIND, TREURE MITJANA
 Nom 			Freq 	Nº Pulsacions 
 MARIA			15t					3
 JOSEP			50t					1
 MAR 			5t 					5
-MIQUEL 		30t					2
-MARTA 		10t					4
+MIQUEL 	    	30t					2
+MARTA 		    10t					4
+FRAN             1t                 2
+sumatorio (freq*npul)/sumatorio(req)
 */
 
 double easy_dial::longitud_mitjana() const throw(){};
