@@ -6,8 +6,8 @@
 #include <esin/error>
 #include <esin/util>
 */
-#include "error.hpp"
-#include "util.hpp"   
+#include <esin/error>
+#include <esin/util> 
 #include <string>
 #include <vector>
 
