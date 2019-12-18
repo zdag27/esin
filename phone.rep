@@ -1,6 +1,5 @@
-node* cellphone;
-struct node{
-    nat _num;
-    nat _compt;
-    string _name;
-};
+#include "util.hpp"
+
+util::nat _num;
+util::nat _compt;
+string _name;
