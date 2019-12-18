@@ -72,36 +72,28 @@ bool phone::operator!=(const phone& T) const throw(){
 	return !(*this==T);
 }
 bool phone::operator<(const phone& T) const throw(){
- if(this->nom()<T.nom()){
+ if(this->frequencia()<T.frequencia()){
 		 return true;
- }else if(this->nom()==T.nom()){
-		 if(this->numero()<T.numero()){
+ }else if(this->frequencia()==T.frequencia()){
+		 if(this->nom()<T.nom()){
 				 return true;
-		 }else if(this->numero()==T.numero()){
-				 if(this->frequencia()<T.frequencia()){
+		 }else if(this->nom()==T.nom()){
+				 if(this->numero()<T.numero()){
 						 return true;
 		 }
 	 }
  }
  return false;
 }
+
 bool phone::operator>(const phone& T) const throw(){
-	if(this->nom()>T.nom()){
-		return true;
-	}else if(this->nom()==T.nom()){
-		if(this->numero()>T.numero()){
-			return true;
-		}else if(this->numero()==T.numero()){
-			if(this->frequencia()>T.frequencia()){
-				return true;
-			}
-		}
-	}
-	return false;
+    return (T<this);
 }
+
 bool phone::operator<=(const phone& T) const throw(){
 	return !(*this>T);
 }
+
 bool phone::operator>=(const phone& T) const throw(){
 	return !(*this<T);
 }
