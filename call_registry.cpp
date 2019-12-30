@@ -1,4 +1,25 @@
 #include "call_registry.hpp"
+unsigned int divi(vector<phone>  & vec, unsigned int ini , unsigned int fini ){
+    unsigned int auxini , aufini;
+    phone aux=vec[ini];
+    auxini = ini + 1;
+    aufini= fini;
+    while(auxini < aufini + 1) {
+        while(auxini < aufini + 1 and vec[auxini].frequencia() <= aux.frequencia() )++ auxini ;
+        while(auxini < aufini + 1 and vec[aufini].frequencia() >= aux.frequencia())--aufini ;
+        if(auxini < aufini + 1)swap (vec[auxini], vec[aufini]);
+    }
+    swap(vec[ini], vec[aufini]);
+    return aufini ;
+}
+void quick(vector<phone>  &vec, unsigned int ini , unsigned int fini)   {
+    if(fini - ini + 1 <= 1){}else{
+        unsigned int aux= divi(vec, ini, fini);
+        quick(vec, ini, aux - 1) ;
+        quick(vec, aux + 1, fini) ;
+    }
+}
+
 void call_registry::recnade(dalb* call,vector<phone> &v){
     if(call!=NULL){
         if(call->cell.nom()!=""){
@@ -38,7 +59,7 @@ call_registry::dalb* call_registry::copia_call(dalb * R){
 		dalb* n;
 		if (R == NULL) n = NULL;
 		else {
-				n = new dalb;
+				n = new *dalb;
 				try {
 						n->cell = R->cell;
 						n->izq = copia_call(R->izq);
@@ -61,7 +82,7 @@ void call_registry::thanos(dalb* m){
 void call_registry::agrega(dalb* &call,phone telf){
 	if(call->cell.numero()<telf.numero()){
 		if(call->der==NULL){
-			dalb* n=new dalb;
+			dalb* n=new *dalb;
 			n->cell=telf;
 			n->der=NULL;
 			n->izq=NULL;
@@ -71,7 +92,7 @@ void call_registry::agrega(dalb* &call,phone telf){
 		}
 	}else {
 		if (call->izq == NULL) {
-			dalb *n = new dalb;
+			dalb *n = new *dalb;
 			n->cell = telf;
 			n->der = NULL;
 			n->izq = NULL;
@@ -127,8 +148,8 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 	/* Construeix un call_registry buit. */
 	call_registry::call_registry() throw(error){
 		//cout << "No estoy ";
-		dalb*x = new dalb;
-		phone a;
+		dalb *x =new *dalb;
+		phone a();
 		x->izq=NULL;
 		x->cell = a;
 		x->der=NULL;
@@ -230,20 +251,43 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 		return x;
 	}
 
+    unsigned int divi(vector<phone>  & vec, unsigned int ini , unsigned int fini ){
+        unsigned int auxini , aufini;
+        phone aux=vec[ini];
+        auxini = ini + 1;
+        aufini= fini;
+        while(auxini < aufini + 1) {
+            while(auxini < aufini + 1 and vec[auxini] <= aux )++ auxini ;
+            while(auxini < aufini + 1 and vec[aufini] >= aux)--aufini ;
+            if(auxini < aufini + 1)swap (vec[auxini], vec[aufini]);
+        }
+        swap(vec[ini], vec[aufini]);
+        return aufini ;
+    }
+
+    void quick(vector<phone>  &vec, unsigned int ini , unsigned int fini)   {
+        if(fini - ini + 1 <= 1){}else{
+            unsigned int aux= divi(vec, ini, fini);
+            quick(vec, ini, aux - 1) ;
+            quick(vec, aux + 1, fini) ;
+        }
+    }
+
 	/* COST MITJA = LINEAL */
 	/* Fa un bolcat de totes les entrades que tenen associat un
 	nom no nul sobre un vector de phone.
 	Comprova que tots els noms dels telèfons siguin diferents{} 
 	es produeix un error en cas contrari. */
 	void call_registry::dump(vector<phone>& V) const throw(error){
-  	recnade(rai,V);
-    for(int i=0;i<V.size();++i){
-        for(int j=0;j<V.size();++j){
-            if(i!=j and V[i].nom()==V[j].nom()){
-				throw(error(ErrNomRepetit));
+        recnade(rai,V);
+        for(int i=0;i<V.size();++i){
+            for(int j=0;j<V.size();++j){
+                if(i!=j and V[i].nom()==V[j].nom()){
+                    throw(error(ErrNomRepetit))
+                }
             }
         }
-    }
+        quick(V, 0, V.size() - 1);
 	}
 
 call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
