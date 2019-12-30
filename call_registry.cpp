@@ -1,12 +1,12 @@
 #include "call_registry.hpp"
 void call_registry::recnade(dalb* call,vector<phone> &v){
-	if(call!=NULL){
-		if(call->cell.nom()!=""){
-			v.push_back(call->cell);
-		}
-		recnade(call->izq,v);
-		recnade(call->der,v);
-	}
+    if(call!=NULL){
+        if(call->cell.nom()!=""){
+            v.push_back(call->cell);
+        }
+        recnade(call->izq,v);
+        recnade(call->der,v);
+    }
 };
 void call_registry::tamano(dalb* call,int &x){
 	++x;
@@ -18,20 +18,20 @@ void call_registry::tamano(dalb* call,int &x){
 };
 
 call_registry::dalb* call_registry::buscar(dalb* call,nat num){
-	if(call!=NULL){
-		if(call->cell.numero()==num){
-			return call;
-		}else{
-			dalb* n;
-			if(call->cell.numero()>num){
-				n=buscar(call->izq,num);
-			}else{
-				n=buscar(call->der,num);
-			}
-			return n;
-		}
-	}
-	return NULL;
+    if(call!=NULL){
+	    if(call->cell.numero()==num){
+		    return call;
+	    }else{
+		    dalb* n;
+		    if(call->cell.numero()>num){
+			    n=buscar(call->izq,num);
+		    }else{
+			    n=buscar(call->der,num);
+		    }
+		    return n;
+	    }
+    }
+    return NULL;
 };
 /* COST LINEAL O MENOR */
 call_registry::dalb* call_registry::copia_call(dalb * R){
@@ -236,14 +236,14 @@ call_registry::dalb* call_registry::elimina_maxim (dalb* p) {
 	Comprova que tots els noms dels telèfons siguin diferents{} 
 	es produeix un error en cas contrari. */
 	void call_registry::dump(vector<phone>& V) const throw(error){
-		recnade(rai,V);
-		for(int i=0;i<V.size();++i){
-			for(int j=0;j<V.size();++j){
-				if(i!=j and V[i].nom()==V[j].nom()){
-					throw(error(ErrNomRepetit));
-				}
-			}
-		}
+  	recnade(rai,V);
+    for(int i=0;i<V.size();++i){
+        for(int j=0;j<V.size();++j){
+            if(i!=j and V[i].nom()==V[j].nom()){
+				throw(error(ErrNomRepetit));
+            }
+        }
+    }
 	}
 
 call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
