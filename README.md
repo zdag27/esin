@@ -1,5 +1,6 @@
 # esin
 compilar:
+
 g++ -c // normal
 
 g++ -o -lesin 
