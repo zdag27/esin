@@ -87,7 +87,7 @@ bool phone::operator<(const phone& T) const throw(){
 }
 
 bool phone::operator>(const phone& T) const throw(){
-    return (T<this);
+    return (T<*this);
 }
 
 bool phone::operator<=(const phone& T) const throw(){
