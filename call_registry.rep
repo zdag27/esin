@@ -6,6 +6,8 @@ struct dalb{
 };
 
 dalb* rai;
+static unsigned int divi(vector<phone>  & vec, unsigned int ini , unsigned int fini );
+static void quick(vector<phone>  &vec, unsigned int ini , unsigned int fini);
 static dalb* copia_call(dalb * R);
 static void thanos(dalb* m);
 static void tamano(dalb* call,int &x);
