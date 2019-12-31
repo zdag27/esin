@@ -1,5 +1,6 @@
 #include "easy_dial.hpp"
 
+	/*
 void easy_dial::busca(arb* it,string s){
 	int i = 0;
 	while(i < s.size() and it != NULL){
@@ -15,7 +16,9 @@ void easy_dial::busca(arb* it,string s){
 		}
 	}
 }
+	*/
 
+	/*
 int easy_dial::conver(char letra){
 	if ('A' <= letra < 'a'){
 		return int(letra)-int('A');
@@ -24,7 +27,9 @@ int easy_dial::conver(char letra){
 		return int(letra)-int('a');
 	}
 }
+	*/
 
+	/*
 arb easy_dial::node_hashtag(const phone &p){
 		arb a=new arb;
 		it.car=int('#');
@@ -34,7 +39,9 @@ arb easy_dial::node_hashtag(const phone &p){
 			it.p=p;
 			return a;
 };
+			*/
 
+	/*
 void fori(phone s,int i,arb* it){
 			for(int x=i;x<s.nombre().size();++x){
 			it.cen=new arb;
@@ -46,7 +53,9 @@ void fori(phone s,int i,arb* it){
 		}
 		it.cen=node_hashtag(s);
 };
+	*/
 
+	/*
 void easy_dial::inserta(phone s,int i,arb* &it){
 	if(it==NULL){
 		it=new arb;
@@ -93,8 +102,10 @@ void easy_dial::inserta(phone s,int i,arb* &it){
 			}
 	}
 };
+	*/
 
 	easy_dial::easy_dial(const call_registry& R) throw(error){
+		/*
 		vector <string> v;
 		R.dump(v);
 		this->_raiz=NULL;
@@ -102,16 +113,23 @@ void easy_dial::inserta(phone s,int i,arb* &it){
 			arb* it = _raiz;
 			inserta(v[i],0,it);
 		}
+		*/
 	};
 	easy_dial::easy_dial(const easy_dial& D) throw(error){
+		/*
 		this = D;
+		*/
 	};
 	easy_dial& easy_dial::operator=(const easy_dial& D) throw(error){
+		/*
 		borrar(this->_raiz);
 		copiar(D._raiz);
+		*/
 	};
 	easy_dial::~easy_dial() throw(){
+		/*
 		borrar(this->_raiz);
+		*/
 	};
 
 	string easy_dial::inici() throw(){};
@@ -120,6 +138,7 @@ void easy_dial::inserta(phone s,int i,arb* &it){
 	nat easy_dial::num_telf() const throw(error){};
 
 	void easy_dial::comencen(const string& pref, vector<string>& result) const throw(error){
+		/*
 		arb* it=this->_raiz;
 		busca(it, pref);
 		if(it==NULL){
@@ -127,6 +146,7 @@ void easy_dial::inserta(phone s,int i,arb* &it){
 		}else{
 			add(it,result);
 		}
+		*/
 	};
 
 	double easy_dial::longitud_mitjana() const throw(){};

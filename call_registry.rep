@@ -1,17 +1,31 @@
 #include "phone.hpp"
-struct dalb{
+
+// Variables privades
+struct node{
     phone cell;
-    dalb* izq;
-    dalb* der;
+    node* izq;
+    node* der;
 };
 
-dalb* rai;
-static dalb* copia_call(dalb * R);
-static void thanos(dalb* m);
-static void tamano(dalb* call,int &x);
-static dalb* buscar(dalb* call,nat num);
-static void agrega(dalb* &call,phone telf);
-static dalb* elimina(dalb* call,nat &num);
-static dalb* ajunta(dalb *t1, dalb *t2);
-static dalb* elimina_maxim (dalb* p);
-static void recnade(dalb* call,vector<phone> &v);
+node* _raiz;
+nat num_nodes;
+
+// Funcions privades
+node* copia_call(node * _raiz);
+
+void thanos(node* n);
+
+void agrega(node* &n, phone telf);
+
+node* elimina_aux(node* _raiz, nat &num, bool &existeix);
+
+node* buscar(nat num) const;
+/* PRE: it = arrel del BST */
+/* POST: Retorna un punter al node que conté un phone de numero = num.
+	Si no existeix, retorna un punter al node previ i encontrado = false */
+
+void num_entrades_aux(node* it,int &x);
+
+
+void recnade(node* call,vector<phone> &v);
+

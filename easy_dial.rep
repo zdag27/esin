@@ -1,16 +1,5 @@
 #include<array>
-using namespace std;
 
-
-/*
-	# = 35
-	A = 65
-	Z = 
-*/
-
-int letra_a_indice(char letra);
-void inserta(string s,int i,arb a);
-arb node_hashtag(phone &p);
 struct arb
 {
 	int car;
@@ -19,4 +8,9 @@ struct arb
 	arb* der;
 	phone* p;	
 };
+
 arb* _raiz;
+
+int letra_a_indice(char letra);
+void inserta(string s,int i,arb a);
+arb node_hashtag(phone &p);
