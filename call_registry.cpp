@@ -42,15 +42,21 @@ call_registry::node* call_registry::copia_call(node * _raiz){
 };
 
 call_registry::~call_registry() throw(){
+	cout << "Sr. Stark, no me encuentro bien." << endl;
 	thanos(_raiz);
+	cout << endl;
 }
 
 /* Funció auxiliar del destructor */
 void call_registry::thanos(node* n){
 	if (n != NULL) {
+		cout << "IZQ = " << n->izq << " | call" << n->cell.numero() << " | DER = " << n->der << endl;
+		/*
 		thanos(n->izq);
+		cout << n->cell.numero() << " ";
 		thanos(n->der);
-		delete n;
+		*/
+		// delete n;
 	}
 };
 
@@ -76,6 +82,7 @@ void call_registry::registra_trucada(nat num) throw(error){
 		_raiz->cell = a;
 		_raiz->izq = NULL;
 		_raiz->der = NULL;
+		++num_nodes;
 	}
 }
 
@@ -90,13 +97,6 @@ void call_registry::assigna_nom(nat num, const string& name) throw(error){
 		bool existeix = false;
 		resp resultado = buscar(num);
 		if(resultado.it != NULL){
-			cout << "no era null" << endl;
-		} else {
-			cout << "era null" << endl;
-		}
-
-		cout << resultado.it << " " << resultado.it_anterior << endl;
-		if(resultado.it != NULL){
 			phone a(num,name,resultado.it->cell.frequencia());
 			resultado.it->cell=a;
 		} else {
@@ -110,6 +110,7 @@ void call_registry::assigna_nom(nat num, const string& name) throw(error){
 		_raiz->cell = a;
 		_raiz->izq = NULL;
 		_raiz->der = NULL;
+		++num_nodes;
 	}
 }
 
@@ -123,9 +124,6 @@ void call_registry::agrega(node* n, phone telf){
 		n->izq = nuevo;
 		++num_nodes;
 	} else if(telf.numero()>n->cell.numero()){
-		cout << "n = " << n << " | " << n->cell.numero() << endl;
-		cout << "Todo ";
-		cout << "bien" << endl;
 		node* nuevo = new node;
 		nuevo->cell = telf;
 		nuevo->izq = NULL;

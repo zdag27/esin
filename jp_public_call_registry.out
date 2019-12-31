@@ -1,52 +1,11 @@
-###!-----------------------------------------
-###!
-###! MODUL CALL_REGISTRY
-###!
-###!-----------------------------------------
-###1 call_registry: buit
-###!-----------------------------------------
-###!
-#init c1 call_registry
-#c 101
-true
-##false
-#nom_cr 101
-
-##Error::call_registry:21:Numero inexistent.
-#num_trucades 101
-Error::call_registry:21:Numero inexistent.
-##Error::call_registry:21:Numero inexistent.
-#e 101
-Error::call_registry:21:Numero inexistent.
-##Error::call_registry:21:Numero inexistent.
-#num_entrades
-0
-##0
-#es_buit
-true
-##true
-#dump
-
-##
-#destroy
-###!
-###!
-###!
-###!-----------------------------------------
-###2 call_registry: una entrada
-###!-----------------------------------------
-###!
-###!-----------------------------------------
-###2.1 insercio assignant
-###!-----------------------------------------
 #init c21 call_registry
 #as 102 "I-102"
 ###!
 #c 101
-true
+false
 ##false
 #nom_cr 101
-I-102
+Error::call_registry:21:Numero inexistent.
 ##Error::call_registry:21:Numero inexistent.
 #num_trucades 101
 Error::call_registry:21:Numero inexistent.
@@ -58,13 +17,13 @@ true
 I-102
 ##I-102
 #num_trucades 102
-Error::call_registry:21:Numero inexistent.
+0
 ##0
 #num_entrades
-0
+1
 ##1
 #es_buit
-true
+false
 ##false
 #dump
 
@@ -73,32 +32,23 @@ true
 Error::call_registry:21:Numero inexistent.
 ##Error::call_registry:21:Numero inexistent.
 #e 102
-Error::call_registry:21:Numero inexistent.
 #c 102
-true
+false
 ##false
 #nom_cr 102
-I-102
+Error::call_registry:21:Numero inexistent.
 ##Error::call_registry:21:Numero inexistent.
 #num_trucades 102
 Error::call_registry:21:Numero inexistent.
 ##Error::call_registry:21:Numero inexistent.
 #num_entrades
-0
+1
 ##0
 #es_buit
-true
+false
 ##true
-#dump
-
 ##
 #destroy
-###!
-###!
-###!-----------------------------------------
-###2.2 insercio assignant i registrant
-###!-----------------------------------------
-###!
-#init c22 call_registry
-#as 102 "I-102"
-#r 102
+Sr. Stark, no me encuentro bien.
+IZQ = 0x558f1d3dcf50 | call0 | DER = 0
+
