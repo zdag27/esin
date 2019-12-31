@@ -17,9 +17,9 @@ void thanos(node* n);
 
 void agrega(node* &n, phone telf);
 
-// node* elimina_aux(node* _raiz, nat &num, bool &existeix);
+node* elimina_aux(node* _raiz, nat &num, bool &existeix);
 
-node* buscar(node* it, nat num, bool &existeix);
+node* buscar(nat num) const;
 /* PRE: it = arrel del BST */
 /* POST: Retorna un punter al node que conté un phone de numero = num.
 	Si no existeix, retorna un punter al node previ i encontrado = false */

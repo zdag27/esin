@@ -13,9 +13,11 @@ call_registry::call_registry(const call_registry& R) throw(error){
 }
 
 call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
-	delete _raiz;
-	_raiz = copia_call(R._raiz);
-	num_nodes = R.num_nodes;
+	if(_raiz != R._raiz){
+		thanos(_raiz);
+		_raiz = copia_call(R._raiz);
+		num_nodes = R.num_nodes;
+	}
 	return *this;
 }
 
@@ -60,12 +62,12 @@ estava prèviament en el call_registry afegeix una nova entrada amb
 el número de telèfon donat, l'string buit com a nom i el comptador a 1. */
 void call_registry::registra_trucada(nat num) throw(error){
 	bool existeix = false;
-	node* n = buscar(_raiz, num, existeix);
-	if(existeix){
-		++n->cell;
+	node* res = buscar(num);
+	if(res != NULL){
+		++res->cell;
 	}else{
 		phone a(num,"",1);
-		agrega(n,a);
+		agrega(res,a);
 	}
 }
 
@@ -76,8 +78,8 @@ de trucades a 0.
 Si el número existia prèviament, se li assigna el nom donat. */
 void call_registry::assigna_nom(nat num, const string& name) throw(error){
 	bool existeix = false;
-	node* n = buscar(_raiz, num, existeix);
-	if(existeix){
+	node* n = buscar(num);
+	if(n != NULL){
 		phone a(num,name,n->cell.frequencia());
 		n->cell=a;
 	} else {
@@ -116,52 +118,54 @@ void call_registry::elimina(nat num) throw(error){
 }
 
 /* Auxiliar de elimina(nat num) */
-call_registry::node* call_registry::elimina_aux(node* _raiz, nat &num, bool &existeix) { 
+call_registry::node* call_registry::elimina_aux(node* it, nat &num, bool &existeix) { 
 	// Cas directe, l'element no existeix
-	if (_raiz == NULL) {
+	if (it == NULL) {
 		existeix = false;
 		return _raiz;
 	}
   
-	if (num < _raiz->cell.numero()){
-		_raiz->izq = elimina_aux(_raiz->izq, num, existeix); 
+	if (num < it->cell.numero()){
+		it->izq = elimina_aux(it->izq, num, existeix); 
 	} else if (num > _raiz->cell.numero()){
-		_raiz->der = elimina_aux(_raiz->der, num, existeix); 
+		it->der = elimina_aux(it->der, num, existeix); 
 	} else {
 	 	// Mirem si te un fill esquerra o dret 
-		if (_raiz->izq == NULL) { 
-			node *aux = _raiz->der; 
-			delete _raiz; 
+		if (it->izq == NULL) { 
+			node *aux = it->der; 
+			delete it; 
 			return aux; 
-		} else if (_raiz->der == NULL) {
-			node *aux = _raiz->izq; 
-			delete _raiz; 
+		} else if (it->der == NULL) {
+			node *aux = it->izq; 
+			delete it; 
 			return aux; 
 		}
 
 		// Si el que hem d'esborrar té dos fills, trobem el fill més petit de la branca dreta
-		node* min = _raiz->der; 
+		node* min = it->der; 
 		while (min->izq != NULL){
 			min = min->izq;
 		} 
 		// Copiem la informació del fill més petit a la posició de "l'arrel" (recursivitat fa que "arrel" = node que hem d'eliminar) 
-		_raiz->cell = min->cell;
+		it->cell = min->cell;
 
 		/* Fem la crida per esborrar el node corresponen a mínim.
 		No podem fer un esborrament directe perquè pot ser el cas qué el node
 		a esborrar té un fill dret */
 		nat min_num = min->cell.numero();
-		_raiz->der = elimina_aux(_raiz->der, min_num, existeix); 
+		it->der = elimina_aux(_raiz->der, min_num, existeix); 
 	} 
-	return _raiz; 
+	return it; 
 } 
 
 /* Funció auxiliar de les seguents funcions "conte", "nom" i  "num_trucades" */
-call_registry::node* call_registry::buscar(node* it, nat num, bool &existeix){
+call_registry::node* call_registry::buscar(nat num) const{
 	/* PRE: it = arrel del BST */
 	/* POST: Retorna un punter al node que conté un phone de numero = num.
 		Si no existeix, retorna un punter al node previ i encontrado = false */
 	node* res;
+	node* it = this->_raiz;
+	bool existeix = false;
 	while(it != NULL and !existeix){
 		res = it;
 		if(num < it->cell.numero()){
@@ -172,6 +176,9 @@ call_registry::node* call_registry::buscar(node* it, nat num, bool &existeix){
 			existeix = true;
 		}
 	}
+	if (existeix){
+		res = it;
+	}
 	return res;
 };
 
@@ -179,8 +186,8 @@ call_registry::node* call_registry::buscar(node* it, nat num, bool &existeix){
 telèfon amb el número donat. */
 bool call_registry::conte(nat num) const throw(){
 	bool existeix = false;
-	buscar(_raiz, num, existeix);
-	return (existeix);
+	node* res = buscar(num);
+	return (res != NULL);
 }
 
 /* Retorna el nom associat al número de telèfon que s'indica.
@@ -189,8 +196,8 @@ té un nom associat. Es produeix un error si el número no està en
 el call_registry. */
 string call_registry::nom(nat num) const throw(error){
 	bool existeix = false;
-	node* res = (buscar(_raiz, num, existeix));
-	if(!existeix)
+	node* res = (buscar(num));
+	if(res == NULL)
 		throw (error(ErrNumeroInexistent));
 	return res->cell.nom();
 }
@@ -201,8 +208,8 @@ aquest número. Es produeix un error si el número no està en el
 call_registry. */
 nat call_registry::num_trucades(nat num) const throw(error){
 	bool existeix = false;
-	node* res = buscar(_raiz, num, existeix);
-	if(!existeix)
+	node* res = buscar(num);
+	if(res == NULL)
 		throw (error(ErrNumeroInexistent));
 	return res->cell.frequencia();
 }
@@ -213,7 +220,7 @@ bool call_registry::es_buit() const throw(){
 }
 
 /* Retorna quants números de telèfon hi ha en el call_registry. */
-nat call_registry::num_nodes() const throw(){
+nat call_registry::num_entrades() const throw(){
 	return num_nodes;
 }
 
