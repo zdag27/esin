@@ -62,12 +62,12 @@ estava prèviament en el call_registry afegeix una nova entrada amb
 el número de telèfon donat, l'string buit com a nom i el comptador a 1. */
 void call_registry::registra_trucada(nat num) throw(error){
 	bool existeix = false;
-	node* res = buscar(num);
-	if(res != NULL){
-		++res->cell;
+	resp resultado = buscar(num);
+	if(resultado.it != NULL){
+		++resultado.it->cell;
 	}else{
 		phone a(num,"",1);
-		agrega(res,a);
+		agrega(resultado.it_anterior, a);
 	}
 }
 
@@ -78,18 +78,30 @@ de trucades a 0.
 Si el número existia prèviament, se li assigna el nom donat. */
 void call_registry::assigna_nom(nat num, const string& name) throw(error){
 	bool existeix = false;
-	node* n = buscar(num);
-	if(n != NULL){
-		phone a(num,name,n->cell.frequencia());
-		n->cell=a;
+	cout << "Me ";
+	resp resultado = buscar(num);
+	cout << "joderia" << endl;
+	if(resultado.it != NULL){
+		cout << "no era null" << endl;
 	} else {
+		cout << "era null" << endl;
+	}
+
+	if(resultado.it != NULL){
+		phone a(num,name,resultado.it->cell.frequencia());
+		resultado.it->cell=a;
+	} else {
+		cout << "aqui "; 
 		phone a(num,name,0);
-		agrega(n,a);
+		node* agregar_en = resultado.it_anterior;
+		agrega(agregar_en, a);
+		cout << " me jodi" << endl;
 	}
 }
 
 /* Funció auxiliar registra_trucada i assigna_nom */
 void call_registry::agrega(node* &n, phone telf){
+	cout << "Llego aqui" << endl;
 	if(telf.numero()<n->cell.numero()){
 		node* agregar = new node;
 		agregar->cell = telf;
@@ -158,16 +170,16 @@ call_registry::node* call_registry::elimina_aux(node* it, nat &num, bool &existe
 	return it; 
 } 
 
-/* Funció auxiliar de les seguents funcions "conte", "nom" i  "num_trucades" */
-call_registry::node* call_registry::buscar(nat num) const{
+/* Funció auxiliar de les seguents funcions "conte", "nom" i "num_trucades" */
+call_registry::resp call_registry::buscar(nat num) const{
 	/* PRE: it = arrel del BST */
 	/* POST: Retorna un punter al node que conté un phone de numero = num.
 		Si no existeix, retorna un punter al node previ i encontrado = false */
-	node* res;
+	resp resultado;
 	node* it = this->_raiz;
 	bool existeix = false;
 	while(it != NULL and !existeix){
-		res = it;
+		resultado.it_anterior = it;
 		if(num < it->cell.numero()){
 			it = it->izq;
 		} else if (num > it->cell.numero()){
@@ -176,18 +188,21 @@ call_registry::node* call_registry::buscar(nat num) const{
 			existeix = true;
 		}
 	}
+	
 	if (existeix){
-		res = it;
+		resultado.it = it;
+	} else { 
+		resultado.it = NULL;
 	}
-	return res;
+
+	return resultado;
 };
 
 /* Retorna cert si i només si el call_registry conté un 
 telèfon amb el número donat. */
 bool call_registry::conte(nat num) const throw(){
-	bool existeix = false;
-	node* res = buscar(num);
-	return (res != NULL);
+	resp resultado = buscar(num);
+	return (resultado.it != NULL);
 }
 
 /* Retorna el nom associat al número de telèfon que s'indica.
@@ -196,10 +211,10 @@ té un nom associat. Es produeix un error si el número no està en
 el call_registry. */
 string call_registry::nom(nat num) const throw(error){
 	bool existeix = false;
-	node* res = (buscar(num));
-	if(res == NULL)
+	resp resultado = buscar(num);
+	if(resultado.it == NULL)
 		throw (error(ErrNumeroInexistent));
-	return res->cell.nom();
+	return resultado.it->cell.nom();
 }
 
 /* Retorna el comptador de trucades associat al número de telèfon 
@@ -208,10 +223,10 @@ aquest número. Es produeix un error si el número no està en el
 call_registry. */
 nat call_registry::num_trucades(nat num) const throw(error){
 	bool existeix = false;
-	node* res = buscar(num);
-	if(res == NULL)
+	resp resultado = buscar(num);
+	if(resultado.it == NULL)
 		throw (error(ErrNumeroInexistent));
-	return res->cell.frequencia();
+	return resultado.it->cell.frequencia();
 }
 
 /* Retorna cert si i només si el call_registry està buit. */
@@ -248,7 +263,7 @@ nom no nul sobre un vector de phone.
 Comprova que tots els noms dels telèfons siguin diferents{} 
 es produeix un error en cas contrari. */
 void call_registry::dump(vector<phone>& V) const throw(error){
-	recnade(_raiz,V);
+	//recnade(_raiz,V);
 	for(int i=0;i<V.size();++i){
 		for(int j=0;j<V.size();++j){
 			if(i!=j and V[i].nom()==V[j].nom()){
@@ -259,7 +274,7 @@ void call_registry::dump(vector<phone>& V) const throw(error){
 	//quick(V, 0, V.size() - 1);
 }
 
-
+/*
 void call_registry::recnade(node* call,vector<phone> &v){
 	if(call!=NULL){
 		if(call->cell.nom()!=""){
@@ -269,6 +284,7 @@ void call_registry::recnade(node* call,vector<phone> &v){
 		recnade(call->der,v);
 	}
 };
+*/
 /*
 void quick(vector<phone>  &vec, unsigned int ini , unsigned int fini)   {
 	if(fini - ini + 1 <= 1){}else{
