@@ -61,13 +61,21 @@ incrementant en 1 el comptador de trucades associat. Si el número no
 estava prèviament en el call_registry afegeix una nova entrada amb
 el número de telèfon donat, l'string buit com a nom i el comptador a 1. */
 void call_registry::registra_trucada(nat num) throw(error){
-	bool existeix = false;
-	resp resultado = buscar(num);
-	if(resultado.it != NULL){
-		++resultado.it->cell;
-	}else{
+	if (_raiz != NULL){
+		bool existeix = false;
+		resp resultado = buscar(num);
+		if(resultado.it != NULL){
+			++resultado.it->cell;
+		}else{
+			phone a(num,"",1);
+			agrega(resultado.it_anterior, a);
+		}
+	} else {
+		_raiz = new node;
 		phone a(num,"",1);
-		agrega(resultado.it_anterior, a);
+		_raiz->cell = a;
+		_raiz->izq = NULL;
+		_raiz->der = NULL;
 	}
 }
 
@@ -77,44 +85,52 @@ una nova entrada amb el número i nom donats, i el comptador
 de trucades a 0. 
 Si el número existia prèviament, se li assigna el nom donat. */
 void call_registry::assigna_nom(nat num, const string& name) throw(error){
-	bool existeix = false;
-	cout << "Me ";
-	resp resultado = buscar(num);
-	cout << "joderia" << endl;
-	if(resultado.it != NULL){
-		cout << "no era null" << endl;
-	} else {
-		cout << "era null" << endl;
-	}
+	if (_raiz != NULL)
+	{
+		bool existeix = false;
+		resp resultado = buscar(num);
+		if(resultado.it != NULL){
+			cout << "no era null" << endl;
+		} else {
+			cout << "era null" << endl;
+		}
 
-	if(resultado.it != NULL){
-		phone a(num,name,resultado.it->cell.frequencia());
-		resultado.it->cell=a;
+		cout << resultado.it << " " << resultado.it_anterior << endl;
+		if(resultado.it != NULL){
+			phone a(num,name,resultado.it->cell.frequencia());
+			resultado.it->cell=a;
+		} else {
+			phone a(num,name,0);
+			node* agregar_en = resultado.it_anterior;
+			agrega(agregar_en, a);
+		}
 	} else {
-		cout << "aqui "; 
+		_raiz = new node;
 		phone a(num,name,0);
-		node* agregar_en = resultado.it_anterior;
-		agrega(agregar_en, a);
-		cout << " me jodi" << endl;
+		_raiz->cell = a;
+		_raiz->izq = NULL;
+		_raiz->der = NULL;
 	}
 }
 
 /* Funció auxiliar registra_trucada i assigna_nom */
-void call_registry::agrega(node* &n, phone telf){
-	cout << "Llego aqui" << endl;
+void call_registry::agrega(node* n, phone telf){
 	if(telf.numero()<n->cell.numero()){
-		node* agregar = new node;
-		agregar->cell = telf;
-		agregar->izq = NULL;
-		agregar->der = NULL;
-		n->izq = agregar;
+		node* nuevo = new node;
+		nuevo->cell = telf;
+		nuevo->izq = NULL;
+		nuevo->der = NULL;
+		n->izq = nuevo;
 		++num_nodes;
 	} else if(telf.numero()>n->cell.numero()){
-		node* agregar = new node;
-		agregar->cell = telf;
-		agregar->izq = NULL;
-		agregar->der = NULL;
-		n->der = agregar;
+		cout << "n = " << n << " | " << n->cell.numero() << endl;
+		cout << "Todo ";
+		cout << "bien" << endl;
+		node* nuevo = new node;
+		nuevo->cell = telf;
+		nuevo->izq = NULL;
+		nuevo->der = NULL;
+		n->der = nuevo;
 		++num_nodes;
 	}
 };

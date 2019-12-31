@@ -20,7 +20,7 @@ node* copia_call(node * _raiz);
 
 void thanos(node* n);
 
-void agrega(node* &n, phone telf);
+void agrega(node* n, phone telf);
 
 node* elimina_aux(node* _raiz, nat &num, bool &existeix);
 
