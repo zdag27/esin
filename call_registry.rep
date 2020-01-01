@@ -8,8 +8,8 @@ struct node{
 };
 
 struct resp{
-	node* it;
-	node* it_anterior;
+    node* it;
+    node* it_anterior;
 };
 
 node* _raiz;
@@ -22,7 +22,7 @@ void thanos(node* n);
 
 void agrega(node* n, phone telf);
 
-node* elimina_aux(node* _raiz, nat &num, bool &existeix);
+
 
 resp buscar(nat num) const;
 /* PRE: it = arrel del BST */
@@ -30,7 +30,10 @@ resp buscar(nat num) const;
 	Si no existeix, retorna un punter al node previ i encontrado = false */
 
 void num_entrades_aux(node* it,int &x);
+node* elimina_aux(node* it, nat &num, bool &existeix);
 
+void recnade(node* call,vector<phone> &v)const ;
 
-void recnade(node* call,vector<phone> &v);
+void margaux(vector<phone>  & vec,  int ini ,int auxi , int fini );
 
+void marga(vector<phone>  &vec,  int ini ,  int fini) const ;
