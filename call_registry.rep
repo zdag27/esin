@@ -32,8 +32,8 @@ resp buscar(nat num) const;
 void num_entrades_aux(node* it,int &x);
 node* elimina_aux(node* it, nat &num, bool &existeix);
 
-void recnade(node* call,vector<phone> &v)const ;
+void recnade(node* call,vector<phone> &v) const;
 
-void margaux(vector<phone>  & vec,  int ini ,int auxi , int fini );
+void margaux(vector<phone>  & vec,  int ini ,int auxi , int fini ) const;
 
-void marga(vector<phone>  &vec,  int ini ,  int fini) const ;
+void marga(vector<phone>  &vec,  int ini ,  int fini) const;
