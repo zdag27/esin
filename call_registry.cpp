@@ -7,35 +7,32 @@ call_registry::call_registry() throw(error){
 
 /* Constructor per còpia, operador d'assignació i destructor. */
 call_registry::call_registry(const call_registry& R) throw(error){
-	_raiz = copia_call(R._raiz);
-	num_nodes = R.num_nodes;
+	*this = R;
 }
 
 call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
-	if(_raiz != R._raiz){
-		thanos(_raiz); 
+	this->num_nodes = R.num_nodes;
+	if(this->_raiz != R._raiz){
+		thanos(_raiz);
 		_raiz = copia_call(R._raiz);
-		num_nodes = R.num_nodes;
+		//cout << "Og: "<< this->num_nodes << " Copia: " << R.num_nodes << endl;
 	}
 	return *this;
 }
 
 /* #COST LINEAL O MENOR */
 /* Funció auxiliar del constructor per còpia i de l'operador d'assignació) */
-call_registry::node* call_registry::copia_call(node * _raiz){
+call_registry::node* call_registry::copia_call(node* it){
 	node* n;
-	if (_raiz == NULL)
+	if (it == NULL)
 		n = NULL;
 	else {
 		node* n = new node;
-		try {
-			n->cell = _raiz->cell;
-			n->izq = copia_call(_raiz->izq);
-			n->der = copia_call(_raiz->der);
-		} catch(...) {
-			delete n;
-			throw;
-		}
+		//phone aux;
+		//aux = it->cell;
+		n->cell = it->cell;
+		n->izq = copia_call(it->izq);
+		n->der = copia_call(it->der);
 	}
 	return n;
 };
@@ -50,7 +47,7 @@ void call_registry::thanos(node* n){
 	if (n != NULL) {
 		thanos(n->izq);
 		thanos(n->der);
-		 delete n;
+		delete n;
 	}
 };
 
@@ -131,6 +128,7 @@ void call_registry::agrega(node* n, phone telf){
 Es produeix un error si el número no estava present. */
 void call_registry::elimina(nat num) throw(error){
 	bool existeix = true;
+	//cout << "gonna delete node " << num << endl;
 	_raiz = elimina_aux(_raiz, num, existeix);
 	if (!existeix){
 		throw(error(ErrNumeroInexistent));
@@ -148,12 +146,15 @@ call_registry::node* call_registry::elimina_aux(node* it, nat &num, bool &existe
 	}
 
 	if (num < it->cell.numero()){
+		// cout << it->cell.numero() << " no era, me voy a la izquierda" << endl;
 		it->izq = elimina_aux(it->izq, num, existeix);
 	} else if (num > it->cell.numero()){
+		// cout << it->cell.numero() << " no era, me voy a la derecha" << endl;
 		it->der = elimina_aux(it->der, num, existeix);
 	} else {
 		// Mirem si te un fill esquerra o dret
 		if (it->izq == NULL) {
+			// cout << "Gonna delete node " << it->cell.numero() << endl;
 			node *aux = it->der;
 			delete it;
 			return aux;
@@ -175,7 +176,7 @@ call_registry::node* call_registry::elimina_aux(node* it, nat &num, bool &existe
 		No podem fer un esborrament directe perquè pot ser el cas qué el node
 		a esborrar té un fill dret */
 		nat min_num = min->cell.numero();
-		it->der = elimina_aux(_raiz->der, min_num, existeix);
+		it->der = elimina_aux(it->der, min_num, existeix);
 	}
 	return it;
 }

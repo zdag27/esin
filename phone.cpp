@@ -70,7 +70,6 @@ telèfon T, o a igual freqüència, el nom associat al telèfon és
 major en ordre lexicogràfic que el nom associat a T.
 La resta d'operadors es defineixen consistentment respecte a >. */
 bool phone::operator==(const phone& T) const throw(){
-	cout << "enorme rabo grandioso de ayuwoki, ayudanos" << endl;
 	if(this->nom()==T.nom() and this->frequencia()==T.frequencia())
 		return true;
 	return false;

@@ -16,7 +16,7 @@ node* _raiz;
 nat num_nodes;
 
 // Funcions privades
-node* copia_call(node * _raiz);
+node* copia_call(node* it);
 
 void thanos(node* n);
 
