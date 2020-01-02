@@ -21,6 +21,7 @@ easy_dial::easy_dial(const call_registry& R) throw(error){
 };
 
 void easy_dial::inserta(phone p){
+	nivell = 0;
 	node* it = _raiz;
 	// esquerra = ultim node de l'esquerra visitat
 	node* esquerra = NULL;
@@ -43,6 +44,7 @@ void easy_dial::inserta(phone p){
 			char lletra_phone = nom[nivell];
 			char lletra_arbre = it->cell.nom()[nivell];
 			if (lletra_phone == lletra_arbre){
+				++nivell;
 				amunt = it;
 				esquerra = NULL;
 				dreta = NULL;
