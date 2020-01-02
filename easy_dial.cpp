@@ -15,6 +15,8 @@ easy_dial::easy_dial(const call_registry& R) throw(error){
 		for (int i=1; i<v.size(); ++i){
 			inserta(v[i]);
 		}
+	} else {
+		_raiz = NULL;
 	}
 };
 
@@ -202,8 +204,10 @@ nat easy_dial::num_telf() const throw(error){
 	nat tel = 0;
 	if(_it != NULL){
 		tel = _it->cell.numero();
-	} else {
+	} else if (_it == NULL and _raiz != NULL) {
 		throw (error(ErrNoExisteixTelefon));
+	} else {
+		throw (error(ErrPrefixIndef));
 	}
 	return tel;
 };
