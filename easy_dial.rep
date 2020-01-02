@@ -1,16 +1,22 @@
-#include<array>
 
 struct arb
 {
-	int car;
-	arb* izq;
-	arb* cen;
-	arb* der;
-	phone* p;	
+    char car;
+    arb* izq;
+    arb* cen;
+    arb* der;
+    arb* arr;
+    phone p;
 };
-
 arb* _raiz;
-
+arb* _it;
 int letra_a_indice(char letra);
-void inserta(string s,int i,arb a);
-arb node_hashtag(phone &p);
+void inserta(phone s,int i,arb* &it);
+arb* node_hashtag(const phone &p);
+void busc(arb* &it,char s);
+void busca(arb* it,string s)const ;
+int conver(char letra);
+void fori(phone s,int i,arb* it);
+void borrar(arb *it);
+void copiar(arb* rai,arb *it);
+void add(arb *it,vector<string>&s)const ;
