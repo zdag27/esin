@@ -317,6 +317,3 @@ void call_registry::dump(vector<phone>& V) const throw(error){
 	unsigned int x=V.size()-1;
 	marga(V,0,x);
 }
-
-
-
