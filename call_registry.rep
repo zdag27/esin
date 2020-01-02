@@ -7,25 +7,31 @@ struct node{
     node* der;
 };
 
+struct resp{
+    node* it;
+    node* it_anterior;
+};
+
 node* _raiz;
 nat num_nodes;
 
 // Funcions privades
-node* copia_call(node * _raiz);
+node* copia_call(node* it);
 
 void thanos(node* n);
 
-void agrega(node* &n, phone telf);
+void agrega(node* n, phone telf);
 
-node* elimina_aux(node* _raiz, nat &num, bool &existeix);
-
-node* buscar(nat num) const;
+resp buscar(nat num) const;
 /* PRE: it = arrel del BST */
 /* POST: Retorna un punter al node que conté un phone de numero = num.
 	Si no existeix, retorna un punter al node previ i encontrado = false */
 
 void num_entrades_aux(node* it,int &x);
+node* elimina_aux(node* it, nat &num, bool &existeix);
 
+void recnade(node* call,vector<phone> &v) const;
 
-void recnade(node* call,vector<phone> &v);
+void margaux(vector<phone>  & vec,  int ini ,int auxi , int fini ) const;
 
+void marga(vector<phone>  &vec,  int ini ,  int fini) const;

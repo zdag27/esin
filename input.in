@@ -1,0 +1,37 @@
+
+init c21 call_registry
+as 102 "I-102"
+##!
+c 101
+#false
+nom_cr 101
+#Error::call_registry:21:Numero inexistent.
+num_trucades 101
+#Error::call_registry:21:Numero inexistent.
+c 102
+#true
+nom_cr 102
+#I-102
+num_trucades 102
+#0
+num_entrades
+#1
+es_buit
+#false
+dump
+#102 I-102 0 
+e 101
+#Error::call_registry:21:Numero inexistent.
+e 102
+c 102
+#false
+nom_cr 102
+#Error::call_registry:21:Numero inexistent.
+num_trucades 102
+#Error::call_registry:21:Numero inexistent.
+num_entrades
+#0
+es_buit
+#true
+#
+destroy
