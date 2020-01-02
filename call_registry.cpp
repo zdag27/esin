@@ -15,7 +15,6 @@ call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
 	if(this->_raiz != R._raiz){
 		thanos(this->_raiz);
 		this->_raiz = copia_call(R._raiz);
-		//cout << "Og: "<< this->num_nodes << " Copia: " << R.num_nodes << endl;
 	}
 
 	return *this;
