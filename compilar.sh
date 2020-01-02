@@ -1,2 +1,2 @@
-g++ -c -std=c++98 call_registry.cpp
+g++ -c -std=c++98 easy_dial.cpp
 g++ -o driver_easydial.e *.o -lesin
