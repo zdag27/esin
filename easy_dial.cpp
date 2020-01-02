@@ -21,7 +21,7 @@ easy_dial::easy_dial(const call_registry& R) throw(error){
 };
 
 void easy_dial::inserta(phone p){
-	nivell = 0;
+	nivel = 0;
 	node* it = _raiz;
 	// esquerra = ultim node de l'esquerra visitat
 	node* esquerra = NULL;
