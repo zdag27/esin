@@ -13,10 +13,11 @@ call_registry::call_registry(const call_registry& R) throw(error){
 call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
 	this->num_nodes = R.num_nodes;
 	if(this->_raiz != R._raiz){
-		thanos(_raiz);
-		_raiz = copia_call(R._raiz);
+		thanos(this->_raiz);
+		this->_raiz = copia_call(R._raiz);
 		//cout << "Og: "<< this->num_nodes << " Copia: " << R.num_nodes << endl;
 	}
+
 	return *this;
 }
 
@@ -24,12 +25,10 @@ call_registry &call_registry::operator=(const call_registry &R) throw(error)   {
 /* Funció auxiliar del constructor per còpia i de l'operador d'assignació) */
 call_registry::node* call_registry::copia_call(node* it){
 	node* n;
-	if (it == NULL)
+	if (it == NULL){
 		n = NULL;
-	else {
-		node* n = new node;
-		//phone aux;
-		//aux = it->cell;
+	} else {
+		n = new node;
 		n->cell = it->cell;
 		n->izq = copia_call(it->izq);
 		n->der = copia_call(it->der);

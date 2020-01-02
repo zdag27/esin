@@ -22,8 +22,6 @@ void thanos(node* n);
 
 void agrega(node* n, phone telf);
 
-
-
 resp buscar(nat num) const;
 /* PRE: it = arrel del BST */
 /* POST: Retorna un punter al node que conté un phone de numero = num.
