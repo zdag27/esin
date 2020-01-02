@@ -1,22 +1,30 @@
 
-struct arb
+struct node
 {
-    char car;
-    arb* izq;
-    arb* cen;
-    arb* der;
-    arb* arr;
-    phone p;
+	phone cell;
+	
+	// punters: "izquierda", "derecha", "arriba", "abajo"
+	node* izq;
+	node* der;
+	node* arr;
+	node* cen;
 };
-arb* _raiz;
-arb* _it;
+
+node* _raiz;
+node* _it;
+nat nivel;
+
+void inserta(phone p);
+void borrar(node *it);
+void copiar(node* rai,node *it);
+
+/*
 int letra_a_indice(char letra);
-void inserta(phone s,int i,arb* &it);
-arb* node_hashtag(const phone &p);
-void busc(arb* &it,char s);
-void busca(arb* it,string s)const ;
+void inserta(phone s, int i,node* &it);
+node* node_hashtag(const phone &p);
+void busc(node* &it,char s);
+void busca(node* it,string s)const ;
 int conver(char letra);
-void fori(phone s,int i,arb* it);
-void borrar(arb *it);
-void copiar(arb* rai,arb *it);
-void add(arb *it,vector<string>&s)const ;
+void fori(phone s,int i,node* it);
+void add(node *it,vector<string>&s)const ;
+*/
