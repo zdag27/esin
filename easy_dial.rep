@@ -1,13 +1,12 @@
-
 struct node
 {
-	phone cell;
-	
-	// punters: "izquierda", "derecha", "arriba", "abajo"
-	node* izq;
-	node* der;
-	node* arr;
-	node* cen;
+    phone cell;
+
+    // punters: "izquierda", "derecha", "arriba", "abajo"
+    node* izq;
+    node* der;
+    node* arr;
+    node* cen;
 };
 
 node* _raiz;
@@ -18,6 +17,7 @@ void inserta(phone p);
 void borrar(node *it);
 void copiar(node* rai,node *it);
 void dump(node* it);
+void buscahavueltomalditoesinmatable(node* it,vector<string>& s)const;
 /*
 int letra_a_indice(char letra);
 void inserta(phone s, int i,node* &it);
