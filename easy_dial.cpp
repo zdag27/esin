@@ -3,7 +3,12 @@
 easy_dial::easy_dial(const call_registry& R) throw(error){
 	vector <phone> v;
 	R.dump(v);
+	// cout << "Esto es lo del dump: " << endl;
+	for (int i = 0; i < v.size(); ++i) {
+		// cout << v[i].nom() << endl;
+	}
 	if (v.size() > 0) {
+		// cout << "insertando " << v[0].nom() << endl;
 		_raiz = new node;
 		_raiz->cell = v[0];
 		_raiz->izq = NULL;
@@ -13,6 +18,7 @@ easy_dial::easy_dial(const call_registry& R) throw(error){
 		_it=_raiz;
 
 		for (int i=1; i<v.size(); ++i){
+			// cout << "insertando " << v[i].nom() << endl;
 			inserta(v[i]);
 		}
 	} else {
@@ -41,41 +47,69 @@ void easy_dial::inserta(phone p){
 		} else {
 			// Moure it
 			char lletra_phone = nom[nivell];
-			char lletra_arbre = it->cell.nom()[nivell];
+			char lletra_arbre;
+			// Cas: node conté una paraula a
+			if (it->cell.nom().size() == nivell){
+				lletra_arbre = '#';
+			} else {
+				lletra_arbre = it->cell.nom()[nivell];
+			}
+			// cout << "comparando " << nom << " con " << it->cell.nom() << endl;
 			if (lletra_phone == lletra_arbre){
+				// cout << nom << "bajó por " << it->cell.nom() << endl;
 				++nivell;
 				amunt = it;
 				esquerra = NULL;
 				dreta = NULL;
 				it = it->cen;
 			} else if (lletra_phone < lletra_arbre){
+				// cout << nom << "se fue a la izquierda de " << it->cell.nom() << endl;
 				esquerra = it;
 				it = it->izq;
 			} else {
+				// cout << nom << "se fue a la derecha de " << it->cell.nom() << endl;
 				dreta = it;
 				it = it->der;
 			}
 		}
 	} // fi while
 
+	// cout << "Entrando en dump" << endl;
+	//dump(_raiz);
+	// cout << "Salí de dump*" << endl;
+
 	it = new node;
 	it->cell = p;
-	if (esquerra != NULL) {
+
+	if (esquerra != NULL)
 		esquerra->izq = it;
-	}
-	if (dreta != NULL) {
+	it->izq = NULL;
+
+	if (dreta != NULL)
 		dreta->der = it;
-	}
+	it->der = NULL;
+	
 	if (amunt != NULL){
 		it->arr = amunt;
 		if (amunt->cen == NULL){
 			amunt->cen = it;
 		}
+	} else {
+		it->arr = NULL;
 	}
 	it->cen = NULL;
-	cout << "Entrando en dump" << endl;
-	dump(_raiz);
-	cout << "Salí de dump*" << endl;
+
+	/*
+	if (dreta != NULL){
+		cout << "DRETA = " << dreta->izq << ", " << dreta->der << ", " << dreta->arr << ", " << dreta->cen << endl;
+	} else if (esquerra != NULL) {
+		cout << "ESQUERRA = " << esquerra->izq << ", " << esquerra->der << ", " << esquerra->arr << ", " << esquerra->cen << endl;
+	}
+	*/
+	// cout << "IT = " << it->izq << ", " << it->der << ", " << it->arr << ", " << it->cen << endl;
+	// cout << "Entrando en dump" << endl;
+	//dump(_raiz);
+	// cout << "Salí de dump*" << endl;
 
 };
 
@@ -84,7 +118,7 @@ void easy_dial::dump(node* it){
 		dump(it->izq);
 		dump(it->der);
 		dump(it->cen);
-		cout << it->cell.nom() << endl;
+		// cout << it << " = " << it->cell.nom() << endl;
 	}
 }
 easy_dial::easy_dial(const easy_dial& D) throw(error){
