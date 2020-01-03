@@ -1228,6 +1228,10 @@ MARIA
 ###!--------------------------------------------------
 ###!
 #init d easy_dial rc
+Entrando en dump
+MARIA
+JOSEP
+Salí de dump*
 ###!
 ###!--------------------------------------------------
 ###2.1.1.1.1      baixant fins mes enlla de les fulles
@@ -1591,6 +1595,11 @@ Error::easy_dial:33:No es pot eliminar caracter en el prefix en curs.
 ###!--------------------------------------------------
 ###!
 #init d easy_dial rc
+Entrando en dump
+MARIA
+MARIA
+JOSEP
+Salí de dump*
 ###!
 #comencen ""
 

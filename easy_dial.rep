@@ -17,20 +17,7 @@ nat nivel;
 void inserta(phone p);
 void borrar(node *it);
 void copiar(node* rai,node *it);
-/*
-	dump(_raiz);
-};
-
-void easy_dial::dump(node* it){
-	if(it != NULL){
-		dump(it->izq);
-		dump(it->der);
-		dump(it->cen);
-		cout << it->cell.nom() << endl;
-	}
-
-}
-*/
+void dump(node* it);
 /*
 int letra_a_indice(char letra);
 void inserta(phone s, int i,node* &it);

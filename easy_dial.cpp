@@ -21,7 +21,6 @@ easy_dial::easy_dial(const call_registry& R) throw(error){
 };
 
 void easy_dial::inserta(phone p){
-	nivel = 0;
 	node* it = _raiz;
 	// esquerra = ultim node de l'esquerra visitat
 	node* esquerra = NULL;
@@ -56,9 +55,7 @@ void easy_dial::inserta(phone p){
 				dreta = it;
 				it = it->der;
 			}
-			++nivell;
 		}
-
 	} // fi while
 
 	it = new node;
@@ -76,8 +73,20 @@ void easy_dial::inserta(phone p){
 		}
 	}
 	it->cen = NULL;
+	cout << "Entrando en dump" << endl;
+	dump(_raiz);
+	cout << "Salí de dump*" << endl;
+
 };
 
+void easy_dial::dump(node* it){
+	if(it != NULL){
+		dump(it->izq);
+		dump(it->der);
+		dump(it->cen);
+		cout << it->cell.nom() << endl;
+	}
+}
 easy_dial::easy_dial(const easy_dial& D) throw(error){
 	*this = D;
 };
