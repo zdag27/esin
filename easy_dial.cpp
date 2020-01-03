@@ -1,5 +1,15 @@
 #include "easy_dial.hpp"
 
+void easy_dial::buscahavueltomalditoesinmatable(node* it,vector<string>& s)const{
+    if(it!=NULL){
+        buscahavueltomalditoesinmatable(it->izq,s);
+        buscahavueltomalditoesinmatable(it->cen,s);
+        buscahavueltomalditoesinmatable(it->der,s);
+        s.push_back(it->cell.nom());
+    }
+};
+
+
 easy_dial::easy_dial(const call_registry& R) throw(error){
 	vector <phone> v;
 	R.dump(v);
@@ -258,15 +268,20 @@ nat easy_dial::num_telf() const throw(error){
 };
 
 void easy_dial::comencen(const string& pref, vector<string>& result) const throw(error){
-	/*
-	arb* it=this->_raiz;
-	busca(it, pref);
-	if(it==NULL){
-		throw(error(ErrPrefixIndef));
-	}else{
-		add(it,result);
-	}
-	*/
+    node* it=_raiz;
+    int i=0;
+    while(i<pref.size() and it!=NULL){
+        if(it.car==pref[i]){
+            it=it.cen;
+            ++it
+        }else if(it.car>pref[i]){
+            it=it.der;
+        }else{
+            it=it.izq;
+        }
+    }
+    if(it!=NULL){buscahavueltomalditoesinmatable(it,result);}
+
 };
 
 double easy_dial::longitud_mitjana() const throw(){
