@@ -335,7 +335,10 @@ void easy_dial::comencen(const string& pref, vector<string>& result) const throw
 double easy_dial::longitud_mitjana() const throw(){
     double res=0;
     if(divi!=0) {
-        fml(_raiz, divi,1, res,true);
+        fml(_raiz, divi,0, res,true);
     }
+    double x=1,33333;
+    cout<<x<<endl;
     return res;
+
 };
