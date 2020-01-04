@@ -1,8 +1,24 @@
 #include "easy_dial.hpp"
 
-void easy_dial::fml(node *n, int div, int level, double &res,bool condon)const{
+void easy_dial::cominginur(node *n,string pref,vector<string>&s)const {
+    if (n != NULL) {
+        if (pref.size()==0) {
+            cominginur(n->izq, pref, s);cominginur(n->cen, pref, s);cominginur(n->der, pref, s);s.push_back(n->cell.nom());
+        } else if (n->cell.nom().size() >= pref.size()) {
+            if (n->cell.nom().substr(0,pref.size())==pref) {
+                cominginur(n->izq, pref, s);
+                cominginur(n->cen, pref, s);
+                cominginur(n->der, pref, s);
+                s.push_back(n->cell.nom());
+            }
+        }
+    }
+};
+
+void easy_dial::fml(node *n, double &div, int level, double &res,bool condon)const{
     if(n!=NULL){
-        res+=((double(n->cell.frequencia())/double(divi))*double(level));
+        res+=((double(n->cell.frequencia()))*double(level));
+        div+=double(n->cell.frequencia());
         fml(n->cen,div,level+1,res,true);
         if(condon){
             fml(n->izq,div,level+1,res,false);
@@ -20,7 +36,7 @@ void easy_dial::buscahavueltomalditoesinmatable(node* it,vector<string>& s,bool 
     if(it!=NULL){
         if(it->izq!=NULL){
             if(it->izq->cell.nom()[alberto]==it->cell.nom()[alberto] or b)
-            buscahavueltomalditoesinmatable(it->izq,s,b,alberto);
+                buscahavueltomalditoesinmatable(it->izq,s,b,alberto);
         }
         if(it->cen!=NULL){
             if(it->cen->cell.nom()[alberto]==it->cell.nom()[alberto] or b)
@@ -37,28 +53,23 @@ void easy_dial::buscahavueltomalditoesinmatable(node* it,vector<string>& s,bool 
 easy_dial::easy_dial(const call_registry& R) throw(error){
     vector <phone> v;
     R.dump(v);
+
     // cout << "Esto es lo del dump: " << endl;
-    for (int i = 0; i < v.size(); ++i) {
-        // cout << v[i].nom() << endl;
-    }
     if (v.size() > 0) {
         // cout << "insertando " << v[0].nom() << endl;
         _raiz = new node;
-        _raiz->cell = v[0];
+        _raiz->cell = v[v.size()-1];
         _raiz->izq = NULL;
         _raiz->der = NULL;
         _raiz->arr = NULL;
         _raiz->cen = NULL;
         _it=_raiz;
-        divi=v[0].frequencia();
-        for (int i=1; i<v.size(); ++i){
+        for (int i=v.size()-2; i>=0; --i){
             // cout << "insertando " << v[i].nom() << endl;
             inserta(v[i]);
-            divi+=v[i].frequencia();
         }
     } else {
         _raiz = NULL;
-        divi=0;
     }
 };
 
@@ -90,30 +101,30 @@ void easy_dial::inserta(phone p){
             } else {
                 lletra_arbre = it->cell.nom()[nivell];
             }
-            // cout << "comparando " << nom << " con " << it->cell.nom() << endl;
+            //cout << "comparando " << nom << " con " << it->cell.nom() << endl;
             if (lletra_phone == lletra_arbre){
-                // cout << nom << "bajó por " << it->cell.nom() << endl;
+                //cout << nom << "bajó por " << it->cell.nom() << endl;
                 ++nivell;
                 amunt = it;
                 esquerra = NULL;
                 dreta = NULL;
                 it = it->cen;
             } else if (lletra_phone < lletra_arbre){
-                // cout << nom << "se fue a la izquierda de " << it->cell.nom() << endl;
+                //cout << nom << "se fue a la izquierda de " << it->cell.nom() << endl;
                 esquerra = it;
                 it = it->izq;
             } else {
-                // cout << nom << "se fue a la derecha de " << it->cell.nom() << endl;
+                //cout << nom << "se fue a la derecha de " << it->cell.nom() << endl;
                 dreta = it;
                 it = it->der;
             }
         }
     } // fi while
-
-    // cout << "Entrando en dump" << endl;
-    //dump(_raiz);
-    // cout << "Salí de dump*" << endl;
-
+    /*
+    cout << "Entrando en dump" << endl;
+    dump(_raiz);
+    cout << "Salí de dump*" << endl;
+    */
     it = new node;
     it->cell = p;
 
@@ -141,11 +152,11 @@ void easy_dial::inserta(phone p){
     } else if (esquerra != NULL) {
         cout << "ESQUERRA = " << esquerra->izq << ", " << esquerra->der << ", " << esquerra->arr << ", " << esquerra->cen << endl;
     }
+    cout << "IT = " << it->izq << ", " << it->der << ", " << it->arr << ", " << it->cen << endl;
+    cout << "Entrando en dump" << endl;
+    dump(_raiz);
+    cout << "Salí de dump*" << endl;
     */
-    // cout << "IT = " << it->izq << ", " << it->der << ", " << it->arr << ", " << it->cen << endl;
-    // cout << "Entrando en dump" << endl;
-    //dump(_raiz);
-    // cout << "Salí de dump*" << endl;
 
 };
 
@@ -155,8 +166,11 @@ void easy_dial::dump(node* it) const{
         dump(it->der);
         dump(it->cen);
         cout << it << " = " << it->cell.nom() << endl;
+        cout << "izq = " << it->izq << ", der = " << it->der << ", arr = " << it->arr << ", cen = " << it->cen << endl;
+
     }
 }
+
 easy_dial::easy_dial(const easy_dial& D) throw(error){
     *this = D;
 };
@@ -164,7 +178,6 @@ easy_dial::easy_dial(const easy_dial& D) throw(error){
 easy_dial& easy_dial::operator=(const easy_dial& D) throw(error){
     if(_raiz != D._raiz){
         borrar(_raiz);
-        divi=0;
         if(D._raiz!=NULL){
             _raiz=new node;
             _raiz->izq=NULL;
@@ -173,7 +186,6 @@ easy_dial& easy_dial::operator=(const easy_dial& D) throw(error){
             _raiz->cen=NULL;
             _raiz->cell=D._raiz->cell;
             copiar(_raiz,D._raiz);
-            divi=D.divi;
         }
     }
 };
@@ -207,7 +219,6 @@ void easy_dial::copiar(easy_dial::node* rai,easy_dial::node *it){
 };
 
 easy_dial::~easy_dial() throw(){
-    divi=0;
     borrar(_raiz);
 };
 
@@ -222,6 +233,15 @@ void easy_dial::borrar(node *it){
 
 string easy_dial::inici() throw(){
     this->nivel = 0;
+    if(!init){
+        this->init = !this->init;
+    }
+    /*
+    if(init)
+        cout << "Eureka, era cierto" << endl;
+    else
+        cout << "Rayos y retruecanos" << endl;
+    */
     _it = _raiz;
     string nom = "";
     if (_it != NULL) {
@@ -262,10 +282,10 @@ string easy_dial::seguent(char c) throw(error){
     arb *auxi=_it->cen;
     busc(auxi,c);
     if(auxi==NULL){
-        throw (error(ErrPrefixIndef));
+            throw (error(ErrPrefixIndef));
     }else{
-        _it=auxi;
-        return(_it->cell.nom());
+            _it=auxi;
+            return(_it->cell.nom());
     }
     */
 };
@@ -286,14 +306,24 @@ string easy_dial::anterior() throw(error){
 
 nat easy_dial::num_telf() const throw(error){
     nat tel = 0;
-    if(_it != NULL){
-        tel = _it->cell.numero();
-    } else if (_it == NULL and _raiz != NULL) {
+    if(!init){
+        throw (error(ErrPrefixIndef));
+    } else if (_it == NULL) {
         throw (error(ErrNoExisteixTelefon));
     } else {
-        throw (error(ErrPrefixIndef));
+        tel = _it->cell.numero();
     }
     return tel;
+
+    /*
+    if(_it != NULL){
+            tel = _it->cell.numero();
+    } else if (_it == NULL and _raiz != NULL) {
+            throw (error(ErrNoExisteixTelefon));
+    } else {
+            throw (error(ErrPrefixIndef));
+    }
+    */
 };
 
 void easy_dial::comencen(const string& pref, vector<string>& result) const throw(error){
@@ -321,24 +351,18 @@ void easy_dial::comencen(const string& pref, vector<string>& result) const throw
         }
     }
     if(it!=NULL){
-        if(i==0)
-            buscahavueltomalditoesinmatable(it,result,true,0);
-        else{
-            result.push_back(it->cell.nom());
-            buscahavueltomalditoesinmatable(it->cen,result,false,pref.size()-1);
-
-        }
-
+        cominginur(it,pref,result);
     }
 };
 
 double easy_dial::longitud_mitjana() const throw(){
     double res=0;
-    if(divi!=0) {
+    double divi=0;
+    if(_raiz!=NULL) {
         fml(_raiz, divi,0, res,true);
+        res=res/divi;
     }
-    double x=1,33333;
-    cout<<x<<endl;
     return res;
 
 };
+
