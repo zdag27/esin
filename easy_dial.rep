@@ -3,8 +3,10 @@ struct node
     node* izq;
     node* der;
     node* arr;
-    node* cen;};
+    node* cen;
+};
 
+node* _auxiliar;
 node* _raiz;
 node* _it;
 nat nivel;
