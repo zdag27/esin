@@ -9,8 +9,8 @@ node* _raiz;
 node* _it;
 nat nivel;
 bool init;
-
-void inserta(phone p);
+bool ya;
+void inserta(phone p,node* &it,int x);
 void borrar(node *it);
 void copiar(node* rai,node *it);
 void dump(node* it)const ;
