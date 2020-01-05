@@ -1,22 +1,30 @@
 struct node
-{   phone cell;
+{
+    phone cell;
+
+    // punters: "izquierda", "derecha", "arriba", "abajo"
     node* izq;
     node* der;
     node* arr;
-    node* cen;};
+    node* cen;
+};
 
 node* _raiz;
 node* _it;
 nat nivel;
+int divi;
 bool init;
+
+char prefix[50];
+nat prefix_size;
 
 void inserta(phone p);
 void borrar(node *it);
 void copiar(node* rai,node *it);
 void dump(node* it)const ;
 void buscahavueltomalditoesinmatable(node* it,vector<string>& s,bool b,int alberto)const;
-void fml(node * n, double &div, int level, double &res,bool condon)const ;
-void cominginur(node *n,string pref,vector<string>&s)const;
+void fml(node * n, int div, int level, double &res,bool condon)const ;
+
 /*
 int letra_a_indice(char letra);
 void inserta(phone s, int i,node* &it);
