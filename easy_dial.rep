@@ -1,16 +1,52 @@
-#include<array>
 
-struct arb
+struct node
 {
-	int car;
-	arb* izq;
-	arb* cen;
-	arb* der;
-	phone* p;	
+    phone cell;
+    node* izq;
+    node* der;
+    node* arr;
+    node* cen;
 };
 
-arb* _raiz;
-
+node* _raiz;
+node* _it;
+int nivel;
+bool first_lateral;
+bool lateral;
+bool DIO;
+bool era_NULL;
+void inserta(phone p,node* &it,int x);
+void borrar(node *it);
+void copiar(node* rai,node *it);
+void dump(node* it)const ;
+void fml(node * n, double &div, int level, double &res,bool condon)const ;
+void cominginur(node *n,string pref,vector<string>&s)const;
+void marga(vector<string> &vec, int ini, int fini)const;
+void margaux(vector<string> &vec, int ini, int auxi, int fini)const;
+/*
 int letra_a_indice(char letra);
-void inserta(string s,int i,arb a);
-arb node_hashtag(phone &p);
+void inserta(phone s, int i,node* &it);
+node* node_hashtag(const phone &p);
+void busc(node* &it,char s);
+void busca(node* it,string s)const ;
+int conver(char letra);
+void fori(phone s,int i,node* it);
+void add(node *it,vector<string>&s)const ;
+*/
+/* 31:
+    _raiz = NULL, init = FALSE
+    _raiz != NULL, init = FALSE
+    _raiz = NULL, init = TRUE, era_NULL = TRUE;
+    _raiz != NULL, init FALSE, era_NULL = TRUE;
+
+    32:
+    _raiz = NULL, init = TRUE
+*/
+/*
+if(_it == NULL){
+    throw(error(ErrNoExisteixTelefon));
+}
+if(nivel == -1 or era_NULL or (_raiz == NULL and nivel == -1) or (_it == NULL and nivel == -1)){
+    throw(error(ErrPrefixIndef));
+}
+*/
