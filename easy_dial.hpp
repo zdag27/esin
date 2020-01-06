@@ -1,4 +1,4 @@
-#ifndef _EASY_DIAL_HPP
+ #ifndef _EASY_DIAL_HPP
 #define _EASY_DIAL_HPP
 
 #include "call_registry.hpp"

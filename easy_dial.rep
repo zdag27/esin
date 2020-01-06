@@ -1,8 +1,7 @@
+
 struct node
 {
     phone cell;
-
-    // punters: "izquierda", "derecha", "arriba", "abajo"
     node* izq;
     node* der;
     node* arr;
@@ -11,20 +10,19 @@ struct node
 
 node* _raiz;
 node* _it;
-nat nivel;
-int divi;
-bool init;
-
-char prefix[50];
-nat prefix_size;
-
-void inserta(phone p);
+int nivel;
+bool first_lateral;
+bool lateral;
+bool DIO;
+bool era_NULL;
+void inserta(phone p,node* &it,int x);
 void borrar(node *it);
 void copiar(node* rai,node *it);
 void dump(node* it)const ;
-void buscahavueltomalditoesinmatable(node* it,vector<string>& s,bool b,int alberto)const;
-void fml(node * n, int div, int level, double &res,bool condon)const ;
-
+void fml(node * n, double &div, int level, double &res,bool condon)const ;
+void cominginur(node *n,string pref,vector<string>&s)const;
+void marga(vector<string> &vec, int ini, int fini)const;
+void margaux(vector<string> &vec, int ini, int auxi, int fini)const;
 /*
 int letra_a_indice(char letra);
 void inserta(phone s, int i,node* &it);
@@ -34,4 +32,21 @@ void busca(node* it,string s)const ;
 int conver(char letra);
 void fori(phone s,int i,node* it);
 void add(node *it,vector<string>&s)const ;
+*/
+/* 31:
+    _raiz = NULL, init = FALSE
+    _raiz != NULL, init = FALSE
+    _raiz = NULL, init = TRUE, era_NULL = TRUE;
+    _raiz != NULL, init FALSE, era_NULL = TRUE;
+
+    32:
+    _raiz = NULL, init = TRUE
+*/
+/*
+if(_it == NULL){
+    throw(error(ErrNoExisteixTelefon));
+}
+if(nivel == -1 or era_NULL or (_raiz == NULL and nivel == -1) or (_it == NULL and nivel == -1)){
+    throw(error(ErrPrefixIndef));
+}
 */
