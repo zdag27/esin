@@ -9,9 +9,10 @@ struct node
 
 node* _raiz;
 node* _it;
-nat nivel;
+int nivel;
+bool first_lateral;
 bool lateral;
-bool init;
+bool DIO;
 bool era_NULL;
 void inserta(phone p,node* &it,int x);
 void borrar(node *it);
