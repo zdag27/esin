@@ -170,6 +170,7 @@ void easy_dial::borrar(node *it){
 string easy_dial::inici() throw(){
     nivel = 0;
     init=true;
+    era_NULL=false;
     _it = _raiz;
     string nom = "";
     if (_it != NULL) {
@@ -179,40 +180,62 @@ string easy_dial::inici() throw(){
 };
 
 string easy_dial::seguent(char c) throw(error){
-    if (_it != NULL){
-        node* aux = _it->cen;
-        if(aux != NULL){
-            ++nivel;
-            bool trobat = false;
-            while(!trobat){
-                if (aux != NULL){
-                    throw (error(ErrPrefixIndef));
-                } else {
-                    if (c ==aux->cell.nom()[nivel]){
-                        _it = aux;
-                        trobat = true;
-                    } else if (c < aux->cell.nom()[nivel]) {
-                        aux = aux->izq;
-                    } else {
-                        aux = aux->der;
+    //error pref ind
+    string nom = "";
+
+    if(!era_NULL and _it != NULL){
+        bool trobat = false;
+        node* aux = _it;
+        if(lateral){
+            aux = _it->cen;
+        }
+        while(!trobat and aux != NULL){
+            if (c < aux->cell.nom()[nivel]) {
+                lateral = true;
+                aux = aux->izq;
+            } else if (c > aux->cell.nom()[nivel]){
+                lateral = true;
+                aux = aux->der;
+            } else {
+                // Trobat
+                if(!lateral){
+                    if(aux == _it){
+                        aux = aux->cen;
                     }
                 }
+                _it = aux;
+                trobat = true;
             }
-        } else {
-            throw (error(ErrPrefixIndef));
+        }
+
+        if(aux == NULL){
+            if (era_NULL){
+                throw (error(ErrPrefixIndef));
+            } else {
+                nom = "";
+                era_NULL = true;
+            }
+        } else if (trobat){
+            nom = aux->cell.nom();
         }
     } else {
         throw (error(ErrPrefixIndef));
     }
-    return(_it->cell.nom());
+    ++nivel;
+    return nom;
 };
 
 string easy_dial::anterior() throw(error){
-    if(_raiz==NULL){
-        cout<<"borracho"<<endl;
-    }else{
-        cout<<"sobrio"<<endl;
+    //error 33 31
+    throw (error(ErrPrefixIndef));
+    string nom = "";
+
+    if(!era_NULL and _it != NULL){
+
+    } else {
     }
+    --nivel;
+    return nom;
 };
 
 nat easy_dial::num_telf() const throw(error) {
