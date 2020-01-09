@@ -231,12 +231,8 @@ string easy_dial::seguent(char c) throw (error) {
                 rama_princpial = false;
                 aux = _it->cen;
             }
-            cout << "llegué" << endl;
-            int i = 0;
             while (!trobat and aux != NULL) {
-                cout << i++ << endl;
                 if (c < aux->cell.nom()[nivel]) {
-                    cout << "aca" << endl;
                     // primer desplazamiento = TRUE
                     // segundo y consequentes = FALSE
                     if(rama_princpial){
@@ -247,7 +243,6 @@ string easy_dial::seguent(char c) throw (error) {
                     lateral = true;
                     aux = aux->izq;
                 } else if (c > aux->cell.nom()[nivel]) {
-                    cout << "alla" << endl;
                     // primer desplazamiento = TRUE
                     // segundo y consequentes = FALSE
                     if(rama_princpial){
@@ -258,7 +253,6 @@ string easy_dial::seguent(char c) throw (error) {
                     lateral = true;
                     aux = aux->der;
                 } else {
-                    cout << "ahi" << endl;
                     // Trobat
                     if (!lateral) {
                         if (aux == _it) {
@@ -292,7 +286,6 @@ string easy_dial::seguent(char c) throw (error) {
             }
         }
     } else {
-    		cout << "DIRECTO" << endl;
     		era_NULL = true;
         throw (error(ErrPrefixIndef));
     }
@@ -303,21 +296,31 @@ string easy_dial::seguent(char c) throw (error) {
 string easy_dial::anterior() throw (error) {
     //error 33 31
     string nom;
+
     if(_raiz == NULL){
     	cout << "1";
     } else {
     	cout << "0";
     }
     if(_it == NULL){
-    	cout << "1";
+    	cout << " 1";
     } else {
-    	cout << "0";
+    	cout << " 0";
+    }
+    if(_it == NULL){
+        cout << "1";
+    } else {
+        if(_it->arr == NULL){
+            cout << "1";
+        } else {
+            cout << "0";
+        }
     }
     if(_it == NULL){
         cout << " 1";
     } else {
-        if(_it->arr == NULL){
-            cout << " 1";
+        if(_it->cell.nom() == "'Sr.Sysmalloc"){
+            cout << " 1R";
         } else {
             cout << " 0";
         }
@@ -339,6 +342,22 @@ string easy_dial::anterior() throw (error) {
     }
     cout << endl;
     cout << "nivel = " << nivel << endl;
+
+    // 31
+    // 1 11 11 01
+    if((_raiz == NULL) and (_it == NULL) /* and (_it->arr == NULL) and (_it->cell.nom() == "'Sr.Sysmalloc") */ and (era_NULL) and (!ant_error) and (nivel == -1)){
+        ant_error = true;
+        throw(error(ErrPrefixIndef));
+    }
+    // 31
+    // 1 11 10 00
+    // 1 11 10 01
+    // 1 11 10 11
+    if((_raiz == NULL) and (_it == NULL) /* and (_it->arr == NULL) and (_it->cell.nom() == "'Sr.Sysmalloc") and (era_NULL) and (!ant_error) */ and (nivel <= 0)){
+        ant_error = true;
+        throw(error(ErrPrefixIndef));
+    }
+    /*
     // 31
     //00 10 01
     //00 10 10
@@ -357,7 +376,7 @@ string easy_dial::anterior() throw (error) {
 
     // 31
     //01 11 00
-    if((_raiz != NULL) and (_it == NULL) /* and (_it->arr == NULL) */ and (era_NULL) and (!ant_error) and (nivel != -1)){
+    if((_raiz != NULL) and (_it == NULL) and (era_NULL) and (!ant_error) and (nivel != -1)){
         ant_error = true;
         throw(error(ErrPrefixIndef));
     }
@@ -366,7 +385,7 @@ string easy_dial::anterior() throw (error) {
     //11 10 01
     //11 10 10
     //11 10 11
-    if((_raiz == NULL) and (_it == NULL) /* and (_it->arr == NULL)  and (era_NULL)  */ and (ant_error or nivel == -1)){
+    if((_raiz == NULL) and (_it == NULL) and (ant_error or nivel == -1)){
         ant_error = true;
         throw(error(ErrPrefixIndef));    
     }
@@ -374,23 +393,15 @@ string easy_dial::anterior() throw (error) {
     // 31
     //11 11 00
     //11 11 01
-    if((_raiz == NULL) and (_it == NULL) /* and (_it->arr == NULL) */ and (era_NULL) and (!ant_error) /* and (nivel != -1) */){
+    if((_raiz == NULL) and (_it == NULL) and (era_NULL) and (!ant_error)){
         ant_error = true;
         throw(error(ErrPrefixIndef));    
     }
 
     // 33
     //11 10 00
-    //if((_raiz == NULL) and (_it == NULL) /* and (_it->arr == NULL) */  and (era_NULL) and (!ant_error) and (nivel != -1)){
-    if((_raiz == NULL) and (_it == NULL) /* and (_it->arr == NULL) */ and (!era_NULL) and (!ant_error) and (nivel != -1)){
+    if((_raiz == NULL) and (_it == NULL) and (!era_NULL) and (!ant_error) and (nivel != -1)){
         ant_error = true;
-        throw(error(ErrNoHiHaAnterior));
-    }
-    /*
-    }
-    if(_it == NULL or era_NULL){
-    if(_it->arr == NULL or nivel == -1){
-    	ant_error = true;
         throw(error(ErrNoHiHaAnterior));
     }
     */
@@ -400,23 +411,12 @@ string easy_dial::anterior() throw (error) {
             _it = _it->arr;
             delete aux;
         }
-        /*
-        if(_it->arr == NULL){
-            nom = "";
-        } else if(first_lateral){
-            _it = _it->arr->cen;
-        } else {
-            _it = _it->arr;
-        }
-        if(_it->arr != NULL){
-            nom = _it->cell.nom();
-        }
-        */
     }
 
     if(nivel > 0){
         --nivel;
     }
+
     ant_error = false;
     era_NULL = false;
     return nom;
@@ -489,6 +489,11 @@ nat easy_dial::num_telf() const throw (error) {
     }
     telf = _it->cell.numero();
     */
+    if(_it != NULL){
+        if(_it->cell.nom() != "'Sr.Sysmalloc"){
+            telf = _it->cell.numero();
+        }
+    }
     return telf;
 };
 
