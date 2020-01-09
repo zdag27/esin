@@ -18,7 +18,7 @@ nat num_nodes;
 // Funcions privades
 node* copia_call(node* it);
 
-void thanos(node* n);
+void borrador(node* n);
 
 void agrega(node* n, phone telf);
 
@@ -30,8 +30,4 @@ resp buscar(nat num) const;
 void num_entrades_aux(node* it,int &x);
 node* elimina_aux(node* it, nat &num, bool &existeix);
 
-void recnade(node* call,vector<phone> &v) const;
-
-void margaux(vector<phone>  & vec,  int ini ,int auxi , int fini ) const;
-
-void marga(vector<phone>  &vec,  int ini ,  int fini) const;
+void rellena_vec(node* call,vector<phone> &v,bool &v) const;
