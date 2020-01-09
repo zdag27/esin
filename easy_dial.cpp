@@ -1,58 +1,18 @@
 #include "easy_dial.hpp"
 
-void easy_dial::merge_aux(vector<string> &vec, int ini, int auxi, int fini) const{
-    int tam1 = auxi - ini + 1;
-    int tam2 =  fini - auxi;
-    vector <string> vec1(tam1);
-    vector <string> vec2(tam2);
-    for (int i = 0; i < tam1; i++)vec1[i] = vec[ini + i];
-    for (int i = 0; i < tam2; i++)vec2[i] = vec[auxi + 1+ i];
-    int i = 0,j = i,k = ini;
-    while (i < tam1 && j < tam2){
-        if (vec1[i] <= vec2[j]){
-            vec[k] = vec1[i];
-            i++;
-        }else{
-            vec[k] = vec2[j];
-            j++;
-        }
-        k++;
-    }
-    while (i < tam1){
-        vec[k] = vec1[i];
-        i++;
-        k++;
-    }
-    while (j < tam2){
-        vec[k] = vec2[j];
-        j++;
-        k++;
-    }
-}
-
-void easy_dial::merge(vector<string> &vec, int ini, int fini) const {
-    if (ini < fini){
-        int aux = ini+(fini-ini)/2;
-        merge(vec, ini, aux);
-        merge(vec, aux+1, fini);
-        merge_aux(vec, ini, aux, fini);
-    }
-}
-
-
 void easy_dial::comencen_aux(node * n, string pref, vector < string > & s) const {
     if (n != NULL) {
         if (pref.size() == 0) {
             comencen_aux(n->izq, pref, s);
+            s.push_back(n->cell.nom());
             comencen_aux(n->cen, pref, s);
             comencen_aux(n->der, pref, s);
-            s.push_back(n->cell.nom());
         } else if (n->cell.nom().size() >= pref.size()) {
             if (n->cell.nom().substr(0, pref.size()) == pref) {
                 comencen_aux(n->izq, pref, s);
+                s.push_back(n->cell.nom());
                 comencen_aux(n->cen, pref, s);
                 comencen_aux(n->der, pref, s);
-                s.push_back(n->cell.nom());
             }
         }
     }

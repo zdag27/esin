@@ -277,31 +277,25 @@ false
 #init tel45 phone 345 "nom45" 30
 #init tel50 phone 890 "nom50" 20
 #tel45 == tel50
-enorme rabo grandioso de ayuwoki, ayudanos
 false
 ##false
 #tel50 == tel45
-enorme rabo grandioso de ayuwoki, ayudanos
 false
 ##false
 #init tel45 phone 345 "nom" 30
 #init tel50 phone 890 "nombre" 30
 #tel45 == tel50
-enorme rabo grandioso de ayuwoki, ayudanos
 false
 ##false
 #tel50 == tel45
-enorme rabo grandioso de ayuwoki, ayudanos
 false
 ##false
 #init tel45 phone 345 "nombre" 30
 #init tel50 phone 890 "nombre" 30
 #tel45 == tel50
-enorme rabo grandioso de ayuwoki, ayudanos
 true
 ##true
 #tel50 == tel45
-enorme rabo grandioso de ayuwoki, ayudanos
 true
 ##true
 ###!

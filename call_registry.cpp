@@ -348,12 +348,18 @@ es produeix un error en cas contrari. */
 void call_registry::dump(vector<phone>& V) const throw(error){
 	/*
 retorna el vector resultante de haber agregado los phones del call registry
-	posee coste n por que es el valor de la funcion asociada*/
+	posee coste n por que es el valor de la funcion asociada
+observacion critica sobre el if de comparaciones absurdas:las comparaciones son las que son por alguna razon que esta fuera de nuestra logica en un call registry de tamaño tres el primero se ha de revisar directamente con el segundo ademas en el vector se ha de comparar la posicion 0 con la v.size-1 sin embargo al salir de la funcion rellem¡na vec y hacer un for para ver el contenido del vector aparece todo ordenado alfabeticamente y la posicion 0 no es la misma que al hacer los couts que en las comparaciones, sin embargo esto que no logramos explicar y que lleva a comparaciones insulsas nos hace creer que de alguna manera el error que genera sys malloc en la siguiente clase si se declaran diversas variables,no tenemos la capacidad suficente para saber el por que este system malloc aparce aqui o por que un vector se comporta de formas diferentes dependiendom de que accion con las mismas variables se realize  
+	*/
 	bool existe_repetido=false;
-	recnade(_raiz,V,existe_repetido);
-		if(existe_repetido){
-			throw(error(ErrNomRepetit));
+	if(_raiz!=NULL)
+	rellena_vec(_raiz,V,existe_repetido);
+		if(V.size()>1){
+			if(V[0].nom()==V[V.size()-1].nom() or V[0].nom()==V[1].nom() or existe_repetido){
+				throw(error(ErrNomRepetit));
+			}
 		}
+			
 }
 
  void call_registry::rellena_vec(node* call,vector<phone> &v,bool &b) const{
@@ -365,14 +371,14 @@ g(n)=1->k=0
 coste n
  	*/
 	if(call!=NULL and !b){
-		recnade(call->izq,v,b);
+		rellena_vec(call->izq,v,b);
 		if(call->cell.nom()!=""){
-			if(v[v.size()-1]==call->cell.nom()){
-				b=true;
-			}else{
 				v.push_back(call->cell);
-			}
+				if(v.size()>2){
+					if(v[v.size()-1].nom()==v[v.size()-2].nom())
+					b=true;
+				}
 		}
-		recnade(call->der,v,b);
+		rellena_vec(call->der,v,b);
 	}
 };

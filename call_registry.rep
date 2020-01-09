@@ -30,4 +30,4 @@ resp buscar(nat num) const;
 void num_entrades_aux(node* it,int &x);
 node* elimina_aux(node* it, nat &num, bool &existeix);
 
-void rellena_vec(node* call,vector<phone> &v,bool &v) const;
+void rellena_vec(node* call,vector<phone> &v,bool &b) const;
